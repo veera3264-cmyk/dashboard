@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+
+}
+
+.navbar {
+    padding: 0;
+    height: 68px;
+    background: green;
+    position: relative;
+}
+
+.navbar .navbar-nav .nav-item .nav-link {
+    height: 100%;
+
+}
+
+.nav-link a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    margin: 0 15px;
+}
+
+
+
+.logo {
+    width: 100px;
+    margin-left: 15px;
+    color: white;
+    font-size: 20px;
+}
+
+.navbar-left {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.navbar .navbar-nav,
+.navbar .logo,
+.navbar .nav-item,
+.navbar .nav-link{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+   
+    align-items: center;
+    
+    
+}
+
+.navbar-left,
+.navbar-right
+{
+height: 100%;
+display: flex;
+margin-top: 0px;
+}
+
+.navbar-nav {
+    margin-right: 15px;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.nav-link {
+    display: block;
+    
+    color: rgb(0, 0, 0);
+    text-align: center;
+    text-decoration: none;
+}
+
+.nav-item {
+    display: block;
+    font-size: 15px;
+    align-items: center;
+    margin-right: 0px;
+}
+
+.nav-item span {
+    font-size: 20px;
+    color: white;
+    margin-left: 8px;
+}
+
+.nav-item a {
+    font-size: 15px;
+    color: white;
+}
+
+.nav-item a:hover {
+    color: rgb(0, 0, 0);
+    background-color: #bcffa8;
+
+}
