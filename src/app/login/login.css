@@ -1,10 +1,10 @@
- body{
+ /* body{
     height:100vh;
     display: flex;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background-image: url('/assets/login.jpg');
+    background-image: url('/assets/');
     background-size: cover;
     justify-content: center;
     align-items: center;
@@ -68,7 +68,6 @@
     padding: 15px;
     border-radius: 20px;
     border: 0px solid ;
-    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.804); */
     margin-bottom: 20px;
     font-family: sans-serif;
     font-weight: 900;
@@ -87,4 +86,166 @@
     text-decoration: none;
     color: rgb(255, 255, 255);
     cursor: pointer;
+ } */
+
+ body {
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     margin: 0;
+     padding: 0;
+     font-family: sans-serif;
+     background-image: url('/assets/background.jpg');
+     background-size: cover;
+     background-position: center;
+
+ }
+
+ .login {
+     width: 500px;
+     height: 600px;
+     background-color: white;
+     background: transparent;
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+     border-radius: 40px;
+     box-shadow: 0 0 8px #75ac12;
+     margin: 7% 0 0 65%;
+     transition: all 0.3s ease;
+ }
+
+ .login:hover {
+     box-shadow: 0 0 10px rgb(230, 13, 183);
+     ;
+ }
+
+ .brand {
+     text-align: center;
+     align-items: center;
+ }
+
+ .logoimage {
+     display: flex;
+     justify-content: center;
+     padding: 30px;
+
+ }
+
+ img {
+     width: 180px;
+     height: 180px;
+     border-radius: 300px;
+ }
+
+ img:hover {
+     box-shadow: 0 0 10px rgb(230, 13, 183);
+ }
+
+ h2 {
+     color: black;
+     font-family: Georgia, 'Times New Roman', Times, serif;
+     font-size: 2rem;
+     color: rgb(241, 18, 230);
+ }
+
+ p {
+     color: black;
+     font-family: Georgia, 'Times New Roman', Times, serif;
+     font-size: 1rem;
+ }
+
+ .input-container {
+     position: relative;
+     align-items: center;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+
+ }
+
+ .input-container input {
+     padding: 10px 20px;
+     width: 275px;
+     border-radius: 30px;
+     border: 0px solid white;
+     box-shadow: 0 0 5px black;
+     margin-bottom: 20px;
+     background: transparent;
+     font-size: 1rem;
+     outline: none;
+     color: black;
+
+ }
+
+ input::placeholder {
+     color: transparent rgb(0, 0, 0);
+     font-size: 0.8rem;
+     font-family: Georgia, 'Times New Roman', Times, serif;
+
+ }
+
+ .submit {
+     width: 180px;
+     padding: 10px;
+     border-radius: 20px;
+     border: 0.5px solid #75ac12;
+     margin-bottom: 20px;
+     font-family: Georgia, 'Times New Roman', Times, serif;
+     font-weight: 900;
+     background-color: rgba(255, 255, 255, 0.4);
+     cursor: pointer;
+ }
+
+ .submit:hover {
+     border: 0.5px solid rgb(230, 13, 183);
+ }
+
+ .forgot-password {
+     text-align: right;
+     margin: 0 10px 0 0;
+
+ }
+
+ .forgot-password a {
+     text-decoration: none;
+     color: rgb(0, 0, 0);
+     font-size: 14px;
+ }
+
+ .forgot-password a:hover {
+     text-decoration: underline;
+ }
+
+ .signup {
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+    
+ }
+
+ .signup a {
+     text-decoration: none;
+     color: rgb(0, 0, 0);
+     cursor: pointer;
+      transition: ease-in-out;
+     
+ }
+
+ .signup a:hover {
+     width: 300px;
+     height: 300px;
+     color:rgb(230, 13, 183);
+    text-decoration: underline;
+     
+ }
+
+ .forgot-password {
+     display: flex;
+ }
+
+ .create-account {
+     display: flex;
+     flex-direction: row;
+     margin: 8px;
  }

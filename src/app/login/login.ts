@@ -9,8 +9,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.css'
 })
 export class LoginComponent {
-  username = '';
-  password = '';
+  username : string ='';
+  password : string ='';
+
+  currentStep: 'login' | 'signip' = 'login';
 
   onSubmit(): void {
     console.log(this.username, this.password);
