@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +12,15 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent {
   username : string ='';
   password : string ='';
+  currentStep: 'login' | 'signup' = 'login';
+  isLoading: boolean = false;
+  errorMessage: string = '';
+  successMessage: string = '';
 
-  currentStep: 'login' | 'signip' = 'login';
 
-  onSubmit(): void {
-    console.log(this.username, this.password);
+    constructor(private router: Router) {}
+
+  onLogin(){
+
   }
 }

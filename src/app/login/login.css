@@ -88,36 +88,39 @@
     cursor: pointer;
  } */
 
- body {
-     height: 100vh;
-     display: flex;
-     justify-content: center;
-     margin: 0;
-     padding: 0;
-     font-family: sans-serif;
-     background-image: url('/assets/background.jpg');
-     background-size: cover;
-     background-position: center;
-
- }
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: url('/assets/background.jpg') no-repeat center center;
+    background-size: cover;
+}
 
  .login {
-     width: 500px;
-     height: 600px;
-     background-color: white;
-     background: transparent;
-     display: flex;
-     justify-content: center;
-     flex-direction: column;
-     border-radius: 40px;
-     box-shadow: 0 0 8px #75ac12;
-     margin: 7% 0 0 65%;
-     transition: all 0.3s ease;
- }
+    width: 80%;
+    max-width: 500px;
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 40px;
+    box-shadow: 0 0 8px #75ac12;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(1px);
+    transition: all 0.3s ease;
+    margin: 20px
+}
+
+
+
 
  .login:hover {
      box-shadow: 0 0 10px rgb(230, 13, 183);
-     ;
+     
  }
 
  .brand {
@@ -174,14 +177,19 @@
      background: transparent;
      font-size: 1rem;
      outline: none;
-     color: black;
-
+     color: black; 
+     box-shadow: 0 0 3px #75ac12;
+ }
+ 
+ .input-container input:hover{
+    box-shadow: 0 0 10px rgb(230, 13, 183);
  }
 
  input::placeholder {
      color: transparent rgb(0, 0, 0);
      font-size: 0.8rem;
      font-family: Georgia, 'Times New Roman', Times, serif;
+     
 
  }
 
@@ -199,6 +207,7 @@
 
  .submit:hover {
      border: 0.5px solid rgb(230, 13, 183);
+     box-shadow: 0 0 10px rgb(230, 13, 183)
  }
 
  .forgot-password {
@@ -211,16 +220,41 @@
      text-decoration: none;
      color: rgb(0, 0, 0);
      font-size: 14px;
+     letter-spacing: 0.5px;
  }
 
  .forgot-password a:hover {
      text-decoration: underline;
+     color: rgb(230, 13, 183);
  }
+.form-container {
+    width: 80%;
+    max-width: 500px;
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 40px;
+    box-shadow: 0 0 8px #75ac12;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(1px);
+    transition: all 0.3s ease;
+    margin: 20px
+}
+.form-container:hover{
+box-shadow: 0 0 10px rgb(230, 13, 183);
+}
 
+.form-header{
+    text-align: center;
+    margin-bottom: 10%;
+}
  .signup {
      text-align: center;
      font-size: 14px;
      cursor: pointer;
+     letter-spacing: 0.5px;
+     
     
  }
 
@@ -249,3 +283,53 @@
      flex-direction: row;
      margin: 8px;
  }
+
+ .error-message {
+
+  margin-bottom: 13px;
+
+  color:
+    #d99a8c;
+
+  font-size: 10px;
+
+  line-height: 1.5;
+
+  animation:
+    errorShake
+    0.4s
+    ease;
+
+}
+@media screen and (max-width : 600px) {
+
+    .login {
+        width: 50%;
+        max-width: 400px;
+        min-height: 500px;
+        padding: 2%;
+    }
+
+    .logoimage img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .input-container input {
+        width: 90%;
+    }
+
+    .create-account {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+}
