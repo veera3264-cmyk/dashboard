@@ -10,23 +10,23 @@
         </div>
         <div class="input-container">
             <input 
-            id="username"
-            type="text" placeholder="username" 
-            id="username" [(ngModel)]="username" 
+            id="email"
+            type="text" placeholder="Email ID" 
+            id="username" [(ngModel)]="EmailID" 
             required>
             <input id="password"
             type="password" 
-            placeholder="password" 
+            placeholder="Password" 
+            [(ngModel)]="Password"
             required>
-            <div class="botton"> 
-                <button class="submit" type="submit">LOG IN</button>
-            </div>
-           @if(errorMessage){
+            @if(errorMessage){
                  
             <span>{{ errorMessage }}</span>
            }
-
-         
+            <div class="botton"> 
+                <button class="submit" type="submit" (click)="onLogin()">LOG IN</button>
+            </div>
+           
             <div class="create-account">
                 <div class="forgot-password">
                     <a href="#">Forgot password</a>
@@ -48,20 +48,25 @@
             <input
              type="text" 
              placeholder="Username" 
+             [(ngModel)] = 'userName'
              required >
             <input 
             type="email" 
             placeholder="Email Address" 
+            [(ngModel)]="EmailID"
             required>
             <input
              type="password" 
              placeholder="Creat Password" 
+             [(ngModel)]="createPassword"
              required>
             <input 
-            type="password" placeholder="Re-Enter password" 
+            type="password" 
+            placeholder="Re-Enter password"
+            [(ngModel)]="reEnterPassword" 
             required>
             <div class="botton">
-                <button class="submit" type="submit">
+                <button class="submit" type="submit" (click)="onSignUP()">
                     SIGN UP
                 </button>
             </div>
