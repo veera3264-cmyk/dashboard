@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private http: HttpClient,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,
+    private router: Router) { }
 
 
   users: Array<{ username: string; email: string; password: string }> = [];
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
+
     if (!this.EmailID.trim() || !this.Password.trim()) {
       this.errorMessage = 'Please enter the Email ID and password.';
       this.cdr.detectChanges();
@@ -43,7 +46,7 @@ export class LoginComponent implements OnInit {
     }
 
     const loginData = {
-      email: this.EmailID.trim(),
+      email: this.EmailID,
       password: this.Password
     };
 
@@ -56,6 +59,7 @@ export class LoginComponent implements OnInit {
 
         if (result.status === 'SUCCESS') {
           this.successMessage = 'Login Successful';
+           this.router.navigate(['/dashboard']);
         } else {
           this.errorMessage = result.message || 'Invalid email or password.';
         }
@@ -77,6 +81,7 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
+
     if (
       this.userName.trim() === '' ||
       this.EmailID.trim() === '' ||
@@ -86,9 +91,31 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Please fill all the fields.';
       return;
     }
-
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.EmailID.trim())) {
+      this.errorMessage = 'Please enter a valid email address.';
+      return;
+    }
     if (this.createPassword !== this.reEnterPassword) {
       this.errorMessage = 'Passwords do not match.';
+      return;
+    }
+    if (this.createPassword.length <= 8) {
+      this.errorMessage = 'Password must contain more than 8 characters.';
+      return;
+    }
+
+    if (!/[A-Z]/.test(this.createPassword)) {
+      this.errorMessage = 'Password must contain at least one capital letter.';
+      return;
+    }
+
+    if (!/[0-9]/.test(this.createPassword)) {
+      this.errorMessage = 'Password must contain at least one numeric character.';
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>_\-]/.test(this.createPassword)) {
+      this.errorMessage = 'Password must contain at least one special character.';
       return;
     }
 
@@ -109,6 +136,18 @@ export class LoginComponent implements OnInit {
           this.errorMessage = 'Account already exists with this email';
         } else {
           this.successMessage = 'Account Created Successfully';
+        }
+
+        if (result.status === 'SUCCESS') {
+          this.currentStep = 'login';
+          this.EmailID = '';
+          this.Password = '';
+
+          this.userName = '';
+          this.createPassword = '';
+          this.reEnterPassword = '';
+
+
         }
         this.cdr.detectChanges();
       },
