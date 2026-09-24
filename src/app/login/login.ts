@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   userName: string = '';
   createPassword: string = '';
   reEnterPassword: string = '';
@@ -21,55 +22,55 @@ export class LoginComponent {
   successMessage: string = '';
 
 
-  // constructor(private router: Router) { }
+  constructor(private http: HttpClient,
+    private cdr: ChangeDetectorRef) { }
+
 
   users: Array<{ username: string; email: string; password: string }> = [];
 
+  ngOnInit() {
 
+  }
 
-  async onLogin(): Promise<void> {
+  onLogin(): void {
     this.errorMessage = '';
     this.successMessage = '';
 
-    if (this.EmailID.trim() === '' || this.Password.trim() === '') {
-      this.errorMessage = "Please enter the EmailId and password"
+    if (!this.EmailID.trim() || !this.Password.trim()) {
+      this.errorMessage = 'Please enter the Email ID and password.';
+      this.cdr.detectChanges();
       return;
     }
 
     const loginData = {
-      email: this.EmailID,
+      email: this.EmailID.trim(),
       password: this.Password
-    }
-    try {
-      const response = await fetch("http://localhost:8080/api/users/login",
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(loginData)
+    };
+
+    this.http.post<any>(
+      'http://localhost:8080/api/login',
+      loginData
+    ).subscribe({
+      next: (result) => {
+        console.log('Login response:', result);
+
+        if (result.status === 'SUCCESS') {
+          this.successMessage = 'Login Successful';
+        } else {
+          this.errorMessage = result.message || 'Invalid email or password.';
         }
+        this.cdr.detectChanges();
+      },
 
-      );
+      error: (error) => {
+        console.error('Login error:', error);
 
-      if (!response.ok) {
-        throw new Error('Login request failed');
+        this.errorMessage =
+          error.error?.message || 'Unable to connect to server.';
       }
-      const result = await response.json();
-      console.log(result);
-
-      if (result.status ==='SUCCESS') {
-        this.successMessage = 'Login Succesful';
-        console.log(this.successMessage);
-      } else {
-        this.errorMessage = 'Invalid email or password'
-      }
-    } catch (error) {
-      console.error('Login error:', error)
-      this.errorMessage = 'Unable to connect to server';
-    }
-    
+    });
   }
+
 
   async onSignUP(): Promise<void> {
 
@@ -97,39 +98,33 @@ export class LoginComponent {
       password: this.createPassword
     };
 
-    try {
+    this.http.post<any>(
+      'http://localhost:8080/api/signup',
+      signUpData
+    ).subscribe({
+      next: (result) => {
+        console.log('Signup response:', result);
 
-      const response = await fetch(
-        'http://localhost:8080/api/users/signup',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(signUpData)
+        if (result.status === 'FAILED') {
+          this.errorMessage = 'Account already exists with this email';
+        } else {
+          this.successMessage = 'Account Created Successfully';
         }
-      );
-
-      const data = await response.json();
-      console.log(data)
-
-      if (data.status === 'FAILED') {
-        this.errorMessage = 'Account already exists with this email'
-        return;
-      }else {
-        this.successMessage = 'Account Created Successfully'
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Signup error:', error);
+        this.errorMessage = error.error?.message || 'Unable to connect to server.';
       }
+    });
 
-      
 
-    } catch (error) {
 
-      console.error('Signup error:', error);
-      this.errorMessage = 'Unable to connect to the server';
-
-    }
   }
+
 }
+
+
 
 
 

@@ -9,34 +9,31 @@
             <p>Protect Every Penny, Power every possibility</p>
         </div>
         <div class="input-container">
-            <input 
-            id="email"
-            type="text" placeholder="Email ID" 
-            id="username" [(ngModel)]="EmailID" 
-            required>
-            <input id="password"
-            type="password" 
-            placeholder="Password" 
-            [(ngModel)]="Password"
-            required>
+            <input id="email" type="text" placeholder="Email ID" [(ngModel)]="EmailID" required>
+            <input id="password" type="password" placeholder="Password" [(ngModel)]="Password" required>
             @if(errorMessage){
-                 
-            <span>{{ errorMessage }}</span>
-           }
-           @if(successMessage){
-                <span>{{successMessage}}</span>
+            <span style="color:red">
+                {{ errorMessage }}
+            </span>
             }
-            <div class="botton"> 
+
+            @if(successMessage){
+            <span style="color:green">
+                {{ successMessage }}
+            </span>
+            }
+            <div class="botton">
                 <button class="submit" type="submit" (click)="onLogin()">LOG IN</button>
             </div>
-            
-           
+
+
             <div class="create-account">
                 <div class="forgot-password">
                     <a href="#">Forgot password</a>
                 </div>
                 <div class="signup">
-                    Don't Have An Account? <a href="#" (click)="currentStep = 'signup'; $event.preventDefault()">  Sign Up
+                    Don't Have An Account? <a href="#" (click)="currentStep = 'signup'; $event.preventDefault()"> Sign
+                        Up
                     </a>
                 </div>
             </div>
@@ -51,57 +48,32 @@
 
         <div class="input-container">
 
-            <input
-                type="text"
-                placeholder="Username"
-                [(ngModel)]="userName"
-                required>
+            <input type="text" placeholder="Username" [(ngModel)]="userName" required>
 
-            <input
-                type="email"
-                placeholder="Email Address"
-                [(ngModel)]="EmailID"
-                required>
+            <input type="email" placeholder="Email Address" [(ngModel)]="EmailID" required>
 
-            <input
-                type="password"
-                placeholder="Create Password"
-                [(ngModel)]="createPassword"
-                required>
+            <input type="password" placeholder="Create Password" [(ngModel)]="createPassword" required>
 
-            <input
-                type="password"
-                placeholder="Re-Enter password"
-                [(ngModel)]="reEnterPassword"
-                required>
+            <input type="password" placeholder="Re-Enter password" [(ngModel)]="reEnterPassword" required>
 
-            @if(errorMessage){
-                <span>{{errorMessage}}</span>
-            }
-
-            @if(successMessage){
-                <span>{{ successMessage }}</span>
-            }
+            <p style="color:red">{{ errorMessage }}</p>
+            <p style="color:green">{{ successMessage }}</p>
+            ``
 
             <div class="botton">
-                <button
-                    class="submit"
-                    type="button"
-                    (click)="onSignUP()">
+                <button class="submit" type="button" (click)="onSignUP()">
                     SIGN UP
                 </button>
             </div>
 
             <div class="signup">
                 Already Have An Account
-                <a
-                    href="#"
-                    (click)="currentStep = 'login'; $event.preventDefault()">
+                <a href="#" (click)="currentStep = 'login'; $event.preventDefault()">
                     Log In
                 </a>
             </div>
 
         </div>
     </div>
-}
+    }
 </body>
