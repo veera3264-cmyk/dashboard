@@ -23,9 +23,13 @@
                  
             <span>{{ errorMessage }}</span>
            }
+           @if(successMessage){
+                <span>{{successMessage}}</span>
+            }
             <div class="botton"> 
                 <button class="submit" type="submit" (click)="onLogin()">LOG IN</button>
             </div>
+            
            
             <div class="create-account">
                 <div class="forgot-password">
@@ -44,36 +48,60 @@
         <div class="form-header">
             <h3>Sign Up</h3>
         </div>
+
         <div class="input-container">
+
             <input
-             type="text" 
-             placeholder="Username" 
-             [(ngModel)] = 'userName'
-             required >
-            <input 
-            type="email" 
-            placeholder="Email Address" 
-            [(ngModel)]="EmailID"
-            required>
+                type="text"
+                placeholder="Username"
+                [(ngModel)]="userName"
+                required>
+
             <input
-             type="password" 
-             placeholder="Creat Password" 
-             [(ngModel)]="createPassword"
-             required>
-            <input 
-            type="password" 
-            placeholder="Re-Enter password"
-            [(ngModel)]="reEnterPassword" 
-            required>
+                type="email"
+                placeholder="Email Address"
+                [(ngModel)]="EmailID"
+                required>
+
+            <input
+                type="password"
+                placeholder="Create Password"
+                [(ngModel)]="createPassword"
+                required>
+
+            <input
+                type="password"
+                placeholder="Re-Enter password"
+                [(ngModel)]="reEnterPassword"
+                required>
+
+            @if(errorMessage){
+                <span>{{errorMessage}}</span>
+            }
+
+            @if(successMessage){
+                <span>{{ successMessage }}</span>
+            }
+
             <div class="botton">
-                <button class="submit" type="submit" (click)="onSignUP()">
+                <button
+                    class="submit"
+                    type="button"
+                    (click)="onSignUP()">
                     SIGN UP
                 </button>
             </div>
+
             <div class="signup">
-                Already Have An Account<a (click)="currentStep = 'login'; $event.preventDefault()"> Log In </a>
+                Already Have An Account
+                <a
+                    href="#"
+                    (click)="currentStep = 'login'; $event.preventDefault()">
+                    Log In
+                </a>
             </div>
+
         </div>
     </div>
-    }
+}
 </body>

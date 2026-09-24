@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { email } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   userName: string = '';
   createPassword: string = '';
   reEnterPassword: string = '';
@@ -26,81 +25,115 @@ export class LoginComponent implements OnInit {
 
   users: Array<{ username: string; email: string; password: string }> = [];
 
-  ngOnInit() {
 
-    this.response();
-  }
-
-  async response() {
-    try {
-      const response = await fetch("http://localhost:8080/api/users");
-      if (!response.ok) {
-        throw new Error("Request failed")
-      }
-      const data = await response.json();
-      this.users = data;
-    }
-    catch (error) {
-      console.error(error);
-    }
-
-  }
 
   async onLogin(): Promise<void> {
     this.errorMessage = '';
-    this.successMessage='';
+    this.successMessage = '';
 
     if (this.EmailID.trim() === '' || this.Password.trim() === '') {
-        this.errorMessage = "Please enter the EmailId and password"
+      this.errorMessage = "Please enter the EmailId and password"
       return;
     }
+
     const loginData = {
       email: this.EmailID,
       password: this.Password
     }
     try {
-      const response = await fetch ("http://localhost:8080/api/users/login",
+      const response = await fetch("http://localhost:8080/api/users/login",
         {
           method: "POST",
-          headers:{
+          headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(loginData)
         }
+
       );
-      if(!response.ok){
+
+      if (!response.ok) {
         throw new Error('Login request failed');
       }
       const result = await response.json();
+      console.log(result);
 
-      if(result === 'SUCCESS'){
+      if (result.status ==='SUCCESS') {
         this.successMessage = 'Login Succesful';
-      }else {
+        console.log(this.successMessage);
+      } else {
         this.errorMessage = 'Invalid email or password'
       }
-  }catch(error){
-    console.error('Login error:', error)
-    this.errorMessage = 'Unable to connect to server';
+    } catch (error) {
+      console.error('Login error:', error)
+      this.errorMessage = 'Unable to connect to server';
+    }
+    
+  }
+
+  async onSignUP(): Promise<void> {
+
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (
+      this.userName.trim() === '' ||
+      this.EmailID.trim() === '' ||
+      this.createPassword.trim() === '' ||
+      this.reEnterPassword.trim() === ''
+    ) {
+      this.errorMessage = 'Please fill all the fields.';
+      return;
+    }
+
+    if (this.createPassword !== this.reEnterPassword) {
+      this.errorMessage = 'Passwords do not match.';
+      return;
+    }
+
+    const signUpData = {
+      username: this.userName.trim(),
+      email: this.EmailID.trim(),
+      password: this.createPassword
+    };
+
+    try {
+
+      const response = await fetch(
+        'http://localhost:8080/api/users/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(signUpData)
+        }
+      );
+
+      const data = await response.json();
+      console.log(data)
+
+      if (data.status === 'FAILED') {
+        this.errorMessage = 'Account already exists with this email'
+        return;
+      }else {
+        this.successMessage = 'Account Created Successfully'
+      }
+
+      
+
+    } catch (error) {
+
+      console.error('Signup error:', error);
+      this.errorMessage = 'Unable to connect to the server';
+
+    }
   }
 }
 
 
 
-  onSignUP(): void {
-    this.errorMessage = 'enter the credentials correctly.';
 
-    if (this.userName === '' || this.EmailID === '' || this.createPassword === '' || this.reEnterPassword === '') {
-      this.errorMessage = 'Please fill the all the fields';
-      return;
-    }
-    const user = this.users.map(
 
-    );
 
-    if (user) {
-      this.errorMessage = 'Username or email already exists';
-      return;
-    }
-  }
 
-}

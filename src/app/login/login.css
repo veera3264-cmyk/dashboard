@@ -301,6 +301,9 @@ box-shadow: 0 0 10px rgb(230, 13, 183);
     ease;
 
 }
+span{
+    color: rgb(234, 1, 255);
+}
 @media screen and (max-width : 600px) {
 
     .login {
