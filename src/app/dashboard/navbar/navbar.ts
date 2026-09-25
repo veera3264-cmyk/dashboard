@@ -8,4 +8,6 @@ import { Form } from '@angular/forms';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {}
+export class Navbar {
+  userName: string =''
+}

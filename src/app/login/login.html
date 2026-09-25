@@ -10,7 +10,14 @@
         </div>
         <div class="input-container">
             <input id="email" type="email" placeholder="Email ID" [(ngModel)]="EmailID" required>
-            <input id="password" type="password" placeholder="Password" [(ngModel)]="Password" required>
+            <div class="password-container">
+                <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" [(ngModel)]="Password"
+                    required>
+
+                <i class="fa-solid" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"
+                    (click)="showPassword = !showPassword">
+                </i>
+            </div>
             @if(errorMessage){
             <span style="color:red">
                 {{ errorMessage }}
@@ -32,7 +39,7 @@
                     <a href="#">Forgot password</a>
                 </div>
                 <div class="signup">
-                    Don't Have An Account? <a href="#" (click)="currentStep = 'signup'; $event.preventDefault()"> Sign
+                    Don't Have An Account? <a href="#" (click)="showSignup(); $event.preventDefault()"> Sign
                         Up
                     </a>
                 </div>
@@ -58,7 +65,7 @@
 
             <p style="color:red">{{ errorMessage }}</p>
             <p style="color:green">{{ successMessage }}</p>
-            ``
+
 
             <div class="botton">
                 <button class="submit" type="button" (click)="onSignUP()">
@@ -68,7 +75,7 @@
 
             <div class="signup">
                 Already Have An Account
-                <a href="#" (click)="currentStep = 'login'; $event.preventDefault()">
+                <a href="#" (click)="showLogin();  $event.preventDefault()">
                     Log In
                 </a>
             </div>
