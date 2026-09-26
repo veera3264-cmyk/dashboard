@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Form } from '@angular/forms';
-
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,5 +8,13 @@ import { Form } from '@angular/forms';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  userName: string =''
+
+  EmailID: string = '';
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.EmailID = sessionStorage.getItem('email') || '';
+    
+  }
 }

@@ -36,7 +36,7 @@ export class Login implements OnInit {
     @Inject(UserService) private userService: UserService,
     private cdr: ChangeDetectorRef,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -90,16 +90,17 @@ export class Login implements OnInit {
         next: (result: any) => {
 
           console.log(result);
+          ;
 
           if (result.status === 'SUCCESS') {
-
+            this.userService.setEmailID(result.email);
             this.successMessage = result.message;
 
-            localStorage.setItem(
-              'userName',
-              result.username
+            sessionStorage.setItem(
+              'email',
+              result.email
             );
-
+        
             this.router.navigate(['/dashboard']);
 
           } else {
@@ -120,6 +121,7 @@ export class Login implements OnInit {
             'Unable to connect to server';
         }
       });
+
   }
 
   onSignUP(): void {
@@ -224,7 +226,7 @@ export class Login implements OnInit {
           this.cdr.detectChanges();
         },
 
-        error: (error:any) => {
+        error: (error: any) => {
 
           console.error(error);
 

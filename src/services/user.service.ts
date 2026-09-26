@@ -5,19 +5,19 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
 
-  private username: string = '';
+  private EmailID: string = '';
 
-  setUsername(username: string): void {
-    this.username = username;
-    localStorage.setItem('username', username);
+  setEmailID(email: string): void {
+    this.EmailID = email;
+    sessionStorage.setItem('EmailID', email);
   }
 
-  getUsername(): string {
-    return this.username || localStorage.getItem('userName') || '';
+  getEmailID(): string {
+    return this.EmailID || sessionStorage.getItem('email') || '';
   }
 
   clearUser(): void {
-    this.username = '';
-    localStorage.removeItem('userName');
+    this.EmailID = '';
+    sessionStorage.removeItem('email');
   }
 }
