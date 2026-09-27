@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class Login implements OnInit {
+export class Login  {
 
   userName: string = '';
   createPassword: string = '';
@@ -38,9 +38,7 @@ export class Login implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
 
-  }
 
   showSignup() {
 
@@ -93,7 +91,7 @@ export class Login implements OnInit {
           ;
 
           if (result.status === 'SUCCESS') {
-            this.userService.setEmailID(result.email);
+            
             this.successMessage = result.message;
 
             sessionStorage.setItem(
