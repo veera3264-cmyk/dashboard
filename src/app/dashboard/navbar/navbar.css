@@ -12,6 +12,7 @@
     height: 65px;
     background: #75ac12;
     position: relative;
+
 }
 
 .menu-border {
@@ -20,28 +21,25 @@
 
 }
 
-.navbar .navbar-nav .nav-item .nav-link {
-    height: 100%;
 
-}
 
 .nav-link {
     color: rgb(253, 253, 253);
     text-decoration: none;
-
-
 }
 
-.logo {
-    margin-right: 10px;
-
-}
-
-.logo img {
+.brand-logo {
     width: 180px;
-    height: 50%;
+    height: 55%;
     margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
 
+.brand-logo .logo {
+    width: 180px;
+    height: auto;
+    margin: 0;
 }
 
 .navbar-left {
@@ -60,29 +58,21 @@
     gap: 10px;
 }
 
-.navbar-rightmenu {
-    height: 100%;
-    margin-right: 1.8%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+
 
 .navbar .navbar-nav,
 .navbar .logo,
 .navbar .nav-item,
-.navbar .nav-link {
+.navbar .nav-link,
+.navbar .container-fluid {
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.navbar-left,
-.navbar-right {
+.navbar #navbarSupportedContent {
     height: 100%;
-    display: flex;
-    margin-top: 0px;
 }
 
 .navbar-nav {
@@ -102,25 +92,28 @@
     align-items: center;
     margin: auto;
 
-
-
 }
 
 .nav-item span {
-
     font-size: 1rem;
     color: white;
     margin-left: 8px;
 }
 
+.emailID {
+    color: white;
+    margin-right: 10px;
+}
 
 .nav-item a:hover {
     background-color: #74a31c;
 
 }
 
+
 .navbar-toggler {
     display: none;
+    border: none;
 }
 
 
@@ -133,10 +126,10 @@
 .nav-link img {
     width: 14px;
     height: 14px;
+    margin: 5px 5px 0 0;
 }
 
-
-@media screen and (min-width: 850px) and (max-width: 1200px) {
+@media (max-width: 1200px) {
     .navbar {
         padding: 0;
         height: 65px;
@@ -144,64 +137,130 @@
         position: relative;
     }
 
-    .logo img {
+    .brand-logo {
         display: none;
     }
 
-    .navbar-right {
-        display: flex;
-        flex-direction: row;
-    }
+    .nav-link img {
+        width: 30px;
 
-    .nav-item span {
-        font-size: 14px;
-        color: white;
-        margin-left: 8px;
-    }
-
-    .navbar-rightmenu span {
-        display: none;
-    }
-
-    .logo img {
-        width: 180px;
-        height: 50%;
-        margin-left: 15px;
     }
 
 }
 
-@media screen and (min-width: 600px) and (max-width: 850px) {
-    .navbar {
-        padding: 0;
-        height: 65px;
-        background: #75ac12;
-        position: relative;
-    }
+@media (max-width: 991px) {
 
-    .logo img {
+    .navbar {
+        height: 65px;
+        width: 100%;
+        position: relative;
         display: flex;
         justify-content: center;
+        align-items: center;
+    }
+    .brand-logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 180px;
+        height: 65px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;
+    }
+    .brand-logo .logo {
+        width: 180px;
+        height: auto;
+        margin: 0;
+    }
+    .navbar-toggler {
+        display: flex;
+        position: absolute;
+        right: 10px;
+        top: 15px;
+        margin: 0;
+        color: white;
+        z-index: 1002;
+    }
+    #navbarSupportedContent {
+        position: absolute;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        height: auto !important;
+        background: #75ac12;
+        padding: 0;
+        z-index: 1000;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    .navbar-right {
+    #navbarSupportedContent.show {
+        display: flex;
+    }
+
+    #navbarSupportedContent>.navbar-nav {
+        width: 100%;
+        height: auto;
         display: flex;
         flex-direction: row;
+        align-items: stretch;
+        margin: 0;
+        padding: 0;
     }
 
-    .nav-item span {
+    #navbarSupportedContent>.navbar-nav .nav-item {
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+
+  
+
+    #navbarSupportedContent>.navbar-nav .nav-link {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+    
+    #navbarSupportedContent .nav-item span {
         font-size: 14px;
-        color: white;
-        margin-left: 8px;
+        margin-left: 0;
     }
 
-    .navbar-rightmenu span {
-        display: none;
+    #navbarSupportedContent>.navbar-nav:last-child {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: end;
+        flex-direction: row;
+        align-items: center;
+        margin: 0;
+        padding: 0;
     }
 
-    .logo img {
-        width: 180px;
-        height: 50%;
-        margin-left: 15px;
+    #navbarSupportedContent>.navbar-nav:last-child .nav-item {
+        width: 50%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    #navbarSupportedContent .logout {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
     }
 }

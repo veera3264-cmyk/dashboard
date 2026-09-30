@@ -1,55 +1,52 @@
-<header>
-  <nav class="navbar">
-    <ul class="navbar-nav">
-      <div class="logo">
-        <img src="/assets/logo-header-light.png" alt="MostEdge">
-      </div>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/groceryinvioces">
-          <span class="menu-border">Grocery Invoices</span>
-        </a>
-      </li>
+<nav class="navbar navbar-expand-lg">
+  <div class="brand-logo">
+    <img class="logo" src="/assets/logo-header-light.png" alt="MostEdge">
+  </div>
+   
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+     <i class="bi bi-three-dots"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Grocery Invoices</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/groceryinvioces">
-          <span class="menu-border">EDI Purchases</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">EDI Purchases</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/groceryinvioces">
-          <span class="menu-border">Fuel Invoices</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Fuel Invoices</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/groceryinvioces">
-          <span class="menu-border">Sales Dashboard</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/groceryinvioces">
-          <span class="menu-border">Locations</span>
-        </a>
-      </li>
-
-    </ul>
-
-    <div class="navbar-right">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <span>{{ EmailID }}</span>
-
-        <a class="nav-link logout" (click)="onLogout()">
-          <img src="/assets/exit.png" alt="Logout">
-        </a>
-        <i class="fa-solid fa-house" style="font-size: 24px;"></i>
-      </div>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Sales Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Locations</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+        
+          <span class="emailID">{{ EmailID }}</span>
+        
+        <li class="nav-item">
+          <a class="nav-link logout" (click)="onLogout()">
+            <img src ='/assets/exit.png'/>
+          </a>
+        </li>
+      </ul>
     </div>
-
-  </nav>
-</header>
+</nav>
