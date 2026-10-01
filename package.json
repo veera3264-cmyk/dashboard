@@ -20,9 +20,12 @@
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
     "@fortawesome/fontawesome-free": "^7.3.1",
+    "angular-mydatepicker": "^0.11.5",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
+    "dayjs": "^1.11.23",
     "fontawesome": "^5.6.3",
+    "ngx-daterangepicker-material": "^21.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

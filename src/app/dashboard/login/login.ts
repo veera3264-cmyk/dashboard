@@ -2,8 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
-import { LoginService } from '../../services/login.service';
-import { UserService } from '../../services/user.service';
+import { LoginService } from '../../../services/login.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-login',

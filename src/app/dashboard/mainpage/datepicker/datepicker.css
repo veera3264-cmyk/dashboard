@@ -1,0 +1,29 @@
+.date-range-field {
+    width: 300px;    
+}
+
+/* Calendar Header */
+.mat-calendar-header {
+    background-color: #ffffff;
+}
+
+/* Selected Range */
+.mat-date-range-input-separator {
+    padding: 0 5px;
+}
+
+/* Active date */
+.mat-calendar-body-selected {
+    background-color: #6ea8fe !important;
+    color: #fff !important;
+}
+
+/* Range dates */
+.mat-calendar-body-in-range::before {
+    background-color: #cfe2ff !important;
+}
+
+/* Hover effect */
+.mat-calendar-body-cell:hover .mat-calendar-body-cell-content {
+    background-color: #e8f0ff;
+}

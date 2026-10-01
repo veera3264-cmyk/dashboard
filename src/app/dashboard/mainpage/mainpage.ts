@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { DateRangePickerComparisonExample } from './daterangepicker/daterangepicker';
+import { Datepicker } from './datepicker/datepicker';
+
 
 
 
 @Component({
   selector: 'app-mainpage',
-  imports: [DateRangePickerComparisonExample],
+  standalone: true,
+  imports: [Datepicker],
   templateUrl: './mainpage.html',
   styleUrl: './mainpage.css',
 })

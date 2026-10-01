@@ -1,0 +1,19 @@
+<mat-form-field appearance="outline" class="date-range-field">
+    <mat-date-range-input [rangePicker]="picker" class="date-range-input">
+        <input
+            matStartDate
+            placeholder="Start Date"
+            [(ngModel)]="startDate">
+        <input
+            matEndDate
+            placeholder="End Date"
+            [(ngModel)]="endDate">
+    </mat-date-range-input>
+    <mat-datepicker-toggle
+        matSuffix
+        [for]="picker">
+    </mat-datepicker-toggle>
+
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+</mat-form-field>
