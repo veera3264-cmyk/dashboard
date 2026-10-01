@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Datepicker } from './datepicker/datepicker';
+import { SearchCriteria } from './searchcreteria/searchcreteria';
+import { Tabsets } from '../../tabsets/tabsets';
 
 
 
@@ -7,10 +9,11 @@ import { Datepicker } from './datepicker/datepicker';
 @Component({
   selector: 'app-mainpage',
   standalone: true,
-  imports: [Datepicker],
+  imports: [Datepicker, SearchCriteria, Tabsets],
   templateUrl: './mainpage.html',
   styleUrl: './mainpage.css',
 })
+
 export class Mainpage {
 
 }

@@ -1,0 +1,19 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+body {
+  background-color: rgb(224, 224, 245);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Active tab text */
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: green !important;
+}
+
+/* Active tab underline */
+.mat-mdc-tab-group .mdc-tab-indicator__content--underline {
+  border-color: green !important;
+}
+.mat-mdc-tab-header {
+    border-bottom: 1px solid rgb(212, 210, 210);
+}

@@ -1,19 +1,19 @@
-<div class="mainpage">
-    <div class="col-md-12 text-center">
-        <h4>
-            SOM - DASHBOARD
-        </h4>
-    </div>
-    <div class="card-body">
-        <button type="button" class="btn btn-secondary btn-block">Today</button>
-        <button type="button" class="btn btn-secondary btn-block">2 Days</button>
-        <button type="button" class="btn btn-secondary btn-block">5 Days</button>
-        <button type="button" class="btn btn-secondary btn-block">7 Days</button>
-        <button type="button" class="btn btn-secondary btn-block">14 Days</button>
-        <button type="button" class="btn btn-secondary btn-block">30 Days</button>
-        <button type="button" class="btn btn-secondary btn-block">90 Days</button>
-        <div class="date-picker-container">
-            <app-datepicker />
+<body>
+    <div class="mainpage">
+        <div class="card-body">
+            <button type="button" class="btn btn-secondary btn-block">Today</button>
+            <button type="button" class="btn btn-secondary btn-block">2 Days</button>
+            <button type="button" class="btn btn-secondary btn-block">5 Days</button>
+            <button type="button" class="btn btn-secondary btn-block">7 Days</button>
+            <button type="button" class="btn btn-secondary btn-block">14 Days</button>
+            <button type="button" class="btn btn-secondary btn-block">30 Days</button>
+            <button type="button" class="btn btn-secondary btn-block">90 Days</button>
+            <div class="date-picker-container">
+                <app-datepicker />
+            </div>
         </div>
+        <app-SearchCriteria style="margin: 0;" />
+        <app-tabsets />
     </div>
-</div>
+    
+</body>

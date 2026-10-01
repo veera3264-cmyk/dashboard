@@ -1,29 +1,28 @@
 .date-range-field {
-    width: 300px;    
+    width: 360px;
 }
 
-/* Calendar Header */
-.mat-calendar-header {
-    background-color: #ffffff;
+.mat-mdc-form-field {
+    border-radius: 8px;
 }
 
-/* Selected Range */
-.mat-date-range-input-separator {
-    padding: 0 5px;
+
+.mat-datepicker-toggle {
+    color: #1976d2 !important;
 }
 
-/* Active date */
+
 .mat-calendar-body-selected {
-    background-color: #6ea8fe !important;
+    background-color: #1976d2 !important;
     color: #fff !important;
 }
 
-/* Range dates */
-.mat-calendar-body-in-range::before {
-    background-color: #cfe2ff !important;
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border-color: #1976d2 !important;
 }
 
-/* Hover effect */
-.mat-calendar-body-cell:hover .mat-calendar-body-cell-content {
-    background-color: #e8f0ff;
+
+.mat-datepicker-content {
+    border-radius: 12px !important;
 }

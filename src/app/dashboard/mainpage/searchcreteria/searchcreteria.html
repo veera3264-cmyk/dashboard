@@ -1,0 +1,57 @@
+<div class="filter-container">
+
+    <div>
+        <mat-form-field class="search" appearance="outline">
+            <mat-label>Select by Location ID or Location Name</mat-label>
+
+            <mat-select [(value)]="selectedLocation">
+                <mat-option *ngFor="let location of locations" [value]="location.locationId">
+                    {{ location.locationId }} - {{ location.locationName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="purchasedate">
+        <mat-form-field appearance="outline" class="date-range-field">
+            <mat-label>Select Purchase Date</mat-label>
+
+            <mat-date-range-input [rangePicker]="purchasePicker">
+                <input matStartDate
+                 [(ngModel)]="purchaseStartDate"
+                 placeholder="Start Date">
+
+                <input matEndDate 
+                [(ngModel)]="purchaseEndDate"
+                placeholder="End Date">
+            </mat-date-range-input>
+
+            <mat-datepicker-toggle matIconSuffix [for]="purchasePicker">
+            </mat-datepicker-toggle>
+
+            <mat-date-range-picker #purchasePicker></mat-date-range-picker>
+        </mat-form-field>
+    </div>
+    <div class="invoicedate">
+        <mat-form-field appearance="outline" class="date-range-field">
+            <mat-label>Select Invoice Date</mat-label>
+
+            <mat-date-range-input [rangePicker]="invoicePicker">
+                <input matStartDate
+                 [(ngModel)]="invoiceStartDate"
+                 placeholder="Start Date">
+
+                <input matEndDate 
+                [(ngModel)]="invoiceEndDate"
+                placeholder="End Date">
+            </mat-date-range-input>
+
+            <mat-datepicker-toggle matIconSuffix [for]="invoicePicker">
+            </mat-datepicker-toggle>
+
+            <mat-date-range-picker #invoicePicker></mat-date-range-picker>
+        </mat-form-field>
+    </div>
+    <div class="button-container">
+        <button class="clear-button" (click)="onClear()">Clear Search Criteria</button>
+    </div>
+</div>
