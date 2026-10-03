@@ -1,20 +1,20 @@
-<body>
-    <div class="mainpage">
-        <div class="card-body">
+<div class="mainpage">
+    <p class="date-note">*Note : Date Range Based On Purchase / Ledger Created Date</p>
+    <div class="date-filter-controls">
+        <div class="quick-ranges">
             <button type="button" class="btn btn-secondary btn-block">Today</button>
             <button type="button" class="btn btn-secondary btn-block">2 Days</button>
-            <button type="button" class="btn btn-secondary btn-block">5 Days</button>
+            <button type="button" class="btn btn-secondary btn-block is-selected">5 Days</button>
             <button type="button" class="btn btn-secondary btn-block">7 Days</button>
             <button type="button" class="btn btn-secondary btn-block">14 Days</button>
             <button type="button" class="btn btn-secondary btn-block">30 Days</button>
             <button type="button" class="btn btn-secondary btn-block">90 Days</button>
-            <div class="date-picker-container">
-                <app-datepicker />
-            </div>
         </div>
-        <app-SearchCriteria />
-        <app-tabsets />
-        <app-table />
-        
+        <div class="date-picker-container">
+            <app-datepicker />
+        </div>
     </div>
-</body>
+    <app-SearchCriteria />
+    <app-tabsets />
+    <app-table />
+</div>

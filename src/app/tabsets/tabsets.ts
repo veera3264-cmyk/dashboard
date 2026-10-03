@@ -36,6 +36,7 @@ export class Tabsets {
   ];
 
   types: type[] = [
+    { value: 'all', viewValue: 'All' },
     { value: 'manufacturers', viewValue: 'Manufacturers' },
     { value: 'others', viewValue: 'Others' },
     { value: 'Thirdpartydistributors', viewValue: 'Third-party Distributors' }

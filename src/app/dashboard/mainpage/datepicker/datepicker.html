@@ -1,7 +1,5 @@
-<mat-form-field appearance="outline" class="date-range-field">
-  <mat-label>Select Date Range</mat-label>
-
-  <mat-date-range-input [rangePicker]="picker">
+<mat-form-field appearance="outline" class="date-range-field" subscriptSizing="dynamic">
+  <mat-date-range-input [rangePicker]="picker" aria-label="Select Date Range">
     <input
       matStartDate
       [(ngModel)]="startDate"

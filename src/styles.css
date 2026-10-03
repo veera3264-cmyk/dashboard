@@ -1,7 +1,13 @@
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
- body {
-   background-color: rgb(224, 224, 245);
+body {
+   margin: 0;
+  background-color: #eef4f7;
    font-family: 'Roboto', sans-serif;
  }
 
@@ -18,3 +24,4 @@
  .mat-mdc-tab-header {
    border-bottom: 1px solid rgb(212, 210, 210);
  }
+ 

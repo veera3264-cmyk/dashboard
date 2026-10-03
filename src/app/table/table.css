@@ -1,11 +1,18 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
 table {
   width: 100%;
 }
 
 .mat-mdc-table {
-  min-width: 1800px;
+  min-width: 1200px;
 }
 
 .mat-shadow-2 {
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
 }

@@ -1,14 +1,16 @@
-.divider-container {
-  display: flex;
-  margin:auto;
-  flex-wrap: wrap;
-  padding: 10px;
+:host {
+  display: block;
+  min-width: 0;
 }
 
-.divider-container h4 {
-  margin: 5% 0 0 5%;
-  font-size: 18px;
-  
+.divider-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-check-input {
@@ -16,21 +18,46 @@
 }
 
 mat-form-field {
-  width: 180px;
-  margin-bottom: -20px; /* Optional: reduce extra Material spacing */
-
+  width: 100%;
+  margin-bottom: 0;
 }
+
+.compact-field {
+  width: 100%;
+  max-width: 200px;
+}
+
+::ng-deep .compact-field.mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-form-field-infix {
+  box-sizing: border-box;
+  height: 36px;
+  min-height: 36px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+::ng-deep .compact-field .mat-mdc-floating-label {
+  font-size: 13px;
+}
+
+::ng-deep .compact-field .mdc-floating-label:not(.mdc-floating-label--float-above) {
+  transform: translateY(calc(-50% - 13px));
+}
+
 
 .btn-success {
   height: 40px;
   white-space: nowrap;
   background-color: #5cca5f;
-  margin-left: 400%;
+  margin-left: 0;
+}
+
+.add-purchase-container {
+  margin-left: auto;
 }
 
 .d-flex {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px
-  
+  gap: 10px;
 }
