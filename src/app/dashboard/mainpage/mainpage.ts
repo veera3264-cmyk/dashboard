@@ -7,6 +7,7 @@ import { Table } from '../../table/table';
 
 
 
+
 @Component({
   selector: 'app-mainpage',
   standalone: true,
@@ -16,5 +17,6 @@ import { Table } from '../../table/table';
 })
 
 export class Mainpage {
+  
 
 }

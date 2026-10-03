@@ -1,0 +1,36 @@
+.divider-container {
+  display: flex;
+  margin:auto;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.divider-container h4 {
+  margin: 5% 0 0 5%;
+  font-size: 18px;
+  
+}
+
+.form-check-input {
+  margin-right: 8px;
+}
+
+mat-form-field {
+  width: 180px;
+  margin-bottom: -20px; /* Optional: reduce extra Material spacing */
+
+}
+
+.btn-success {
+  height: 40px;
+  white-space: nowrap;
+  background-color: #5cca5f;
+  margin-left: 400%;
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+  gap: 10px
+  
+}

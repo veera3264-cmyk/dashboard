@@ -1,0 +1,11 @@
+table {
+  width: 100%;
+}
+
+.mat-mdc-table {
+  min-width: 1800px;
+}
+
+.mat-shadow-2 {
+  overflow-x: auto;
+}
