@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Datepicker } from './datepicker/datepicker';
 import { SearchCriteria } from './searchcreteria/searchcreteria';
-import { Tabsets } from '../../tabsets/tabsets';
-import { Table } from '../../table/table';
+import { Tabsets } from './tabsets/tabsets';
+import { Table } from './table/table';
+
+
 
 
 
