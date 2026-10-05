@@ -6,12 +6,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 
 
-interface UserData {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-}
+
 
 @Component({
   selector: 'app-table',
@@ -20,10 +15,13 @@ interface UserData {
   styleUrl: './table.css',
 })
 export class Table implements AfterViewInit {
+  Groups ='';
+
   displayedColumns: string[] = [
     'Groups',
     'Location',
     'PurchaseDate',
+    'PurchaseAmount',
     'InvoiceDate',
     'InvoiceAmount',
     'Vendor',
@@ -34,6 +32,22 @@ export class Table implements AfterViewInit {
     'Aging',
     'PossibleDuplicate',
     'Action'
+  ];
+  filterColumns: string[] = [
+    'filterGroups',
+    'filterLocation',
+    'filterPurchaseDate',
+    'filterPurchaseAmount',
+    'filterInvoiceDate',
+    'filterInvoiceAmount',
+    'filterVendor',
+    'filterPayment',
+    'filterInvoice',
+    'filterComments',
+    'filterCreatedOn',
+    'filterAging',
+    'filterPossibleDuplicate',
+    'filterAction'
   ];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
@@ -47,6 +61,7 @@ export interface PeriodicElement {
   Groups: string;
   Location: string;
   PurchaseDate: string;
+  PurchaseAmount?: number;
   InvoiceDate: string;
   InvoiceAmount: number;
   Vendor: string;
@@ -601,4 +616,3 @@ const ELEMENT_DATA: PeriodicElement[] = [
     Action: 'View'
   },
 ];
-

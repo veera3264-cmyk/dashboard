@@ -1,4 +1,9 @@
 <body>
+    @if(isLoading){
+    <div class="loading-screen" role="status" aria-label="Loading dashboard">
+        <span class="loading-spinner" aria-hidden="true"></span>
+    </div>
+    }
     @if(currentStep === 'login'){
     <div class="login">
         <div class="logoimage">
@@ -30,7 +35,7 @@
             </span>
             }
             <div class="botton">
-                <button class="submit" type="submit" (click)="onLogin()">LOG IN</button>
+                <button class="submit" type="submit" [disabled]="isLoading" (click)="onLogin()">LOG IN</button>
             </div>
 
 

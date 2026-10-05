@@ -7,10 +7,20 @@
             <mat-select [(value)]="selectedLocation">
                 @for(location of locations; track location.locationId){
                 <mat-option [value]="location.locationId">
-                {{ location.locationId }} - {{ location.locationName }}
+                    {{ location.locationId }} - {{ location.locationName }}
                 </mat-option>
                 }
             </mat-select>
+            @if (selectedLocation !== null) {
+            <button
+                matSuffix
+                type="button"
+                class="location-clear-button"
+                aria-label="Clear location search"
+                (click)="clearLocation($event)">
+                ×
+            </button>
+            }
         </mat-form-field>
     </div>
     <div class="purchasedate">

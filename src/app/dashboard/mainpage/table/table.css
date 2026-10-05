@@ -3,16 +3,156 @@
   min-width: 0;
 }
 
-table {
+.custom-table {
   width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #ffffff;
+  border: 1px solid #cbd3dc;
 }
 
 .mat-mdc-table {
-  min-width: 1200px;
+  min-width: 1450px;
 }
 
 .mat-shadow-2 {
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
+  border: 1px solid #cbd3dc;
+  background: #edf1f4;
+}
+
+.custom-table .mat-mdc-header-cell {
+  background: #6d777f;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 8px;
+  border-right: 1px solid #8a939a;
+  height: 60px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.mat-mdc-header-cell:last-child {
+  border-right: none;
+}
+
+.mat-mdc-cell {
+  padding: 12px 10px;
+  color: #2a2f36;
+  font-size: 12px;
+  border-right: 1px solid #edf0f4;
+  border-top: 1px solid #edf0f4;
+  background: #ffffff;
+}
+
+.mat-mdc-row:nth-child(even) .mat-mdc-cell {
+  background: #fafbfc;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background: #f5f8fb;
+}
+
+.mat-mdc-paginator {
+  border-top: 1px solid #cbd3dc;
+}
+
+.mat-mdc-header-row {
+  min-height: 60px;
+}
+
+.mat-mdc-table .mat-mdc-header-cell,
+.mat-mdc-table .mat-mdc-cell {
+  box-sizing: border-box;
+}
+
+.filter-row .mat-mdc-header-cell {
+  background: #dce3eb;
+  border-right: 1px solid #7b858e;
+  border-top: 1px solid #7b858e;
+  padding: 7px 8px;
+  height: 52px;
+  text-align: left;
+}
+
+.filter-row .mat-mdc-header-cell:last-child {
+  border-right: none;
+}
+
+.filter-row select,
+.filter-row input {
+  display: block;
+  width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  background-color: #ffffff;
+  border: 1px solid #d2d7dc;
+  border-radius: 3px;
+  color: #687786;
+  font-size: 12px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.filter-row select {
+  appearance: auto;
+}
+
+.mat-column-Groups,
+.mat-column-filterGroups {
+  width: 120px;
+}
+
+.mat-column-Location,
+.mat-column-filterLocation {
+  width: 165px;
+}
+
+.mat-column-PurchaseDate,
+.mat-column-filterPurchaseDate,
+.mat-column-PurchaseAmount,
+.mat-column-filterPurchaseAmount,
+.mat-column-InvoiceDate,
+.mat-column-filterInvoiceDate,
+.mat-column-InvoiceAmount,
+.mat-column-filterInvoiceAmount {
+  width: 115px;
+}
+
+.mat-column-Vendor,
+.mat-column-filterVendor {
+  width: 195px;
+}
+
+.mat-column-Payment,
+.mat-column-filterPayment,
+.mat-column-Invoice,
+.mat-column-filterInvoice {
+  width: 120px;
+}
+
+.mat-column-Comments,
+.mat-column-filterComments {
+  width: 100px;
+}
+
+.mat-column-CreatedOn,
+.mat-column-filterCreatedOn,
+.mat-column-Aging,
+.mat-column-filterAging {
+  width: 105px;
+}
+
+.mat-column-PossibleDuplicate,
+.mat-column-filterPossibleDuplicate {
+  width: 145px;
+}
+
+.mat-column-Action,
+.mat-column-filterAction {
+  width: 105px;
 }

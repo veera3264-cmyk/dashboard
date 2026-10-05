@@ -360,3 +360,28 @@
          font-size: 0.9rem;
      }
  }
+
+ .loading-screen {
+     position: fixed;
+     inset: 0;
+     z-index: 10000;
+     display: grid;
+     place-items: center;
+     background: rgba(18, 28, 32, 0.72);
+     backdrop-filter: blur(3px);
+ }
+
+ .loading-spinner {
+     width: 48px;
+     aspect-ratio: 1;
+     border: 4px solid rgba(255, 255, 255, 0.35);
+     border-top-color: #75ac12;
+     border-radius: 50%;
+     animation: login-spin 0.8s linear infinite;
+ }
+
+ @keyframes login-spin {
+     to {
+         transform: rotate(360deg);
+     }
+ }

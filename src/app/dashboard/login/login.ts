@@ -12,7 +12,7 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class Login  {
+export class Login {
 
   userName: string = '';
   createPassword: string = '';
@@ -82,6 +82,19 @@ export class Login  {
       password: this.Password
     };
 
+    const minimumLoaderDuration = 700;
+    const loadingStartedAt = Date.now();
+    const finishAfterMinimumLoading = (action: () => void): void => {
+      const remainingDuration = Math.max(
+        0,
+        minimumLoaderDuration - (Date.now() - loadingStartedAt)
+      );
+      setTimeout(action, remainingDuration);
+    };
+
+    this.isLoading = true;
+    this.cdr.detectChanges();
+
     this.loginService.login(loginData)
       .subscribe({
 
@@ -91,20 +104,26 @@ export class Login  {
           ;
 
           if (result.status === 'SUCCESS') {
-            
+
             this.successMessage = result.message;
 
             sessionStorage.setItem(
               'email',
               result.email
             );
-        
-            this.router.navigate(['/dashboard']);
+
+            finishAfterMinimumLoading(() => {
+              void this.router.navigate(['/dashboard']);
+            });
 
           } else {
 
-            this.errorMessage =
-              result.message || 'Invalid Credentials';
+            finishAfterMinimumLoading(() => {
+              this.isLoading = false;
+              this.errorMessage =
+                result.message || 'Invalid Credentials';
+              this.cdr.detectChanges();
+            });
           }
 
           this.cdr.detectChanges();
@@ -113,10 +132,13 @@ export class Login  {
         error: (error: any) => {
 
           console.error(error);
-
-          this.errorMessage =
-            error.error?.message ||
-            'Unable to connect to server';
+          finishAfterMinimumLoading(() => {
+            this.isLoading = false;
+            this.errorMessage =
+              error.error?.message ||
+              'Unable to connect to server';
+            this.cdr.detectChanges();
+          });
         }
       });
 

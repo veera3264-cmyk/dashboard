@@ -1,77 +1,134 @@
 <div class="mat-shadow-2">
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource" class="custom-table">
 
-    <!-- Position Column -->
     <ng-container matColumnDef="Groups">
-      <th mat-header-cell *matHeaderCellDef> Groups </th>
-      <td mat-cell *matCellDef="let element"> {{element.Groups}} </td>
+      <th mat-header-cell *matHeaderCellDef>Groups</th>
+      <td mat-cell *matCellDef="let element">{{ element.Groups }}</td>
     </ng-container>
 
-    <!-- Name Column -->
     <ng-container matColumnDef="Location">
-      <th mat-header-cell *matHeaderCellDef> Location </th>
-      <td mat-cell *matCellDef="let element"> {{element.Location}} </td>
+      <th mat-header-cell *matHeaderCellDef>Location</th>
+      <td mat-cell *matCellDef="let element">{{ element.Location }}</td>
     </ng-container>
 
-    <!-- Weight Column -->
     <ng-container matColumnDef="PurchaseDate">
-      <th mat-header-cell *matHeaderCellDef> Purchase Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.PurchaseDate}} </td>
+      <th mat-header-cell *matHeaderCellDef>Purchase Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.PurchaseDate }}</td>
     </ng-container>
 
-    <!-- Symbol Column -->
+    <ng-container matColumnDef="PurchaseAmount">
+      <th mat-header-cell *matHeaderCellDef>Purchase Amount</th>
+      <td mat-cell *matCellDef="let element">{{ element.PurchaseAmount ?? element.InvoiceAmount }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="InvoiceDate">
-      <th mat-header-cell *matHeaderCellDef> Invoice Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.InvoiceDate}} </td>
+      <th mat-header-cell *matHeaderCellDef>Invoice Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.InvoiceDate }}</td>
     </ng-container>
+
     <ng-container matColumnDef="InvoiceAmount">
-      <th mat-header-cell *matHeaderCellDef> Invoice Amount </th>
-      <td mat-cell *matCellDef="let element"> {{element.InvoiceAmount}} </td>
+      <th mat-header-cell *matHeaderCellDef>Invoice Amount</th>
+      <td mat-cell *matCellDef="let element">{{ element.InvoiceAmount }}</td>
     </ng-container>
 
-    <!-- Name Column -->
     <ng-container matColumnDef="Vendor">
-      <th mat-header-cell *matHeaderCellDef> Vendor </th>
-      <td mat-cell *matCellDef="let element"> {{element.Vendor}} </td>
+      <th mat-header-cell *matHeaderCellDef>Vendor</th>
+      <td mat-cell *matCellDef="let element">{{ element.Vendor }}</td>
     </ng-container>
 
-    <!-- Weight Column -->
     <ng-container matColumnDef="Payment">
-      <th mat-header-cell *matHeaderCellDef> Payment </th>
-      <td mat-cell *matCellDef="let element"> {{element.Payment}} </td>
+      <th mat-header-cell *matHeaderCellDef>Payment</th>
+      <td mat-cell *matCellDef="let element">{{ element.Payment }}</td>
     </ng-container>
 
-    <!-- Symbol Column -->
     <ng-container matColumnDef="Invoice">
-      <th mat-header-cell *matHeaderCellDef> Invoice </th>
-      <td mat-cell *matCellDef="let element"> {{element.Invoice}} </td>
+      <th mat-header-cell *matHeaderCellDef>Invoice</th>
+      <td mat-cell *matCellDef="let element">{{ element.Invoice }}</td>
     </ng-container>
+
     <ng-container matColumnDef="Comments">
-      <th mat-header-cell *matHeaderCellDef> Comments </th>
-      <td mat-cell *matCellDef="let element"> {{element.Comments}} </td>
+      <th mat-header-cell *matHeaderCellDef>Comments</th>
+      <td mat-cell *matCellDef="let element">{{ element.Comments }}</td>
     </ng-container>
 
-    <!-- Symbol Column -->
     <ng-container matColumnDef="CreatedOn">
-      <th mat-header-cell *matHeaderCellDef> Created on </th>
-      <td mat-cell *matCellDef="let element"> {{element.CreatedOn}} </td>
-    </ng-container>
-    <ng-container matColumnDef="Aging">
-      <th mat-header-cell *matHeaderCellDef> Aging </th>
-      <td mat-cell *matCellDef="let element"> {{element.Aging}} </td>
+      <th mat-header-cell *matHeaderCellDef>Created On</th>
+      <td mat-cell *matCellDef="let element">{{ element.CreatedOn }}</td>
     </ng-container>
 
-    <!-- Symbol Column -->
+    <ng-container matColumnDef="Aging">
+      <th mat-header-cell *matHeaderCellDef>Aging</th>
+      <td mat-cell *matCellDef="let element">{{ element.Aging }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="PossibleDuplicate">
-      <th mat-header-cell *matHeaderCellDef> Possible Duplicate </th>
-      <td mat-cell *matCellDef="let element"> {{element.PossibleDuplicate}} </td>
+      <th mat-header-cell *matHeaderCellDef>Possible Duplicate</th>
+      <td mat-cell *matCellDef="let element">{{ element.PossibleDuplicate }}</td>
     </ng-container>
+
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let element"> {{element.Action}} </td>
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">{{ element.Action }}</td>
     </ng-container>
+
+    <ng-container matColumnDef="filterGroups">
+      <th mat-header-cell *matHeaderCellDef>
+        <select aria-label="Filter by group">
+          <option>Select</option>
+        </select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="filterLocation">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterPurchaseDate">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterPurchaseAmount">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterInvoiceDate">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterInvoiceAmount">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterVendor">
+      <th mat-header-cell *matHeaderCellDef>
+        <input type="text" aria-label="Filter by vendor" placeholder="Type Vendor Name">
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="filterPayment">
+      <th mat-header-cell *matHeaderCellDef>
+        <select aria-label="Filter by payment"><option>All Payment</option></select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="filterInvoice">
+      <th mat-header-cell *matHeaderCellDef>
+        <select aria-label="Filter by invoice"><option>Invoices</option></select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="filterComments">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterCreatedOn">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterAging">
+      <th mat-header-cell *matHeaderCellDef>
+        <select aria-label="Filter by aging"><option>Aging</option></select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="filterPossibleDuplicate">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="filterAction">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns" class="filter-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons aria-label="Select page of periodic elements">
