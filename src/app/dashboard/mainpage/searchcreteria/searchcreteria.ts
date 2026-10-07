@@ -25,7 +25,6 @@ export class SearchCriteria implements OnInit {
 
   locations: any[] = [];
   selectedLocation: number | null = null;
-
   purchaseStartDate: Date | null = null;
   purchaseEndDate: Date | null = null;
   invoiceStartDate: Date | null = null;
@@ -42,8 +41,9 @@ export class SearchCriteria implements OnInit {
   getLocation(): void {
     this.locationService.getLocation().subscribe({
       next: (locations) => {
-        console.log(locations);
-        this.locations = locations;
+        setTimeout(() => {
+          this.locations = locations;
+        });
       },
       error: (err) => console.error(err)
     });

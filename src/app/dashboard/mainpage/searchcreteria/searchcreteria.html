@@ -4,8 +4,8 @@
         <mat-form-field class="search" appearance="outline" subscriptSizing="dynamic">
             <mat-label>Select Location Or Location Name</mat-label>
 
-            <mat-select [(value)]="selectedLocation">
-                @for(location of locations; track location.locationId){
+            <mat-select [(ngModel)]="selectedLocation">
+                @for(location of locations; track $index){
                 <mat-option [value]="location.locationId">
                     {{ location.locationId }} - {{ location.locationName }}
                 </mat-option>

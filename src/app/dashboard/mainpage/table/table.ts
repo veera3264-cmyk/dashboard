@@ -1,21 +1,27 @@
-import { Component } from '@angular/core';
-import { AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
-
-
-
+import { Purchase } from './table.model';
+import { PurchaseService } from '../../../../services/purchase.service';
+import { LocationService } from '../../../../services/location.service';
 
 
 @Component({
   selector: 'app-table',
-  imports: [MatTableModule, MatPaginatorModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+  ],
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
-export class Table implements AfterViewInit {
-  Groups ='';
+export class Table implements AfterViewInit, OnInit {
+
+  constructor(private purchaseService: PurchaseService,
+    private locationService: LocationService
+  ) { }
+
+  Groups: any[] = [];
 
   displayedColumns: string[] = [
     'Groups',
@@ -31,8 +37,9 @@ export class Table implements AfterViewInit {
     'CreatedOn',
     'Aging',
     'PossibleDuplicate',
-    'Action'
+    'Action',
   ];
+
   filterColumns: string[] = [
     'filterGroups',
     'filterLocation',
@@ -47,572 +54,47 @@ export class Table implements AfterViewInit {
     'filterCreatedOn',
     'filterAging',
     'filterPossibleDuplicate',
-    'filterAction'
+    'filterAction',
   ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
+  dataSource = new MatTableDataSource<Purchase>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngAfterViewInit() {
+  ngOnInit(): void {
+    this.loadPurchase();
+    this.getGroups();
+  }
+
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
-}
-export interface PeriodicElement {
-  Groups: string;
-  Location: string;
-  PurchaseDate: string;
-  PurchaseAmount?: number;
-  InvoiceDate: string;
-  InvoiceAmount: number;
-  Vendor: string;
-  Payment: string;
-  Invoice: string;
-  Comments: string;
-  CreatedOn: string;
-  Aging: number;
-  PossibleDuplicate: string;
-  Action: string;
+
+  private loadPurchase(): void {
+    this.purchaseService.getPurchases()
+      .subscribe({
+        next: (data) => {
+          this.dataSource.data = data;
+        },
+        error: (err) => console.error(err)
+      });
+  }
+  private getGroups(): void {
+    this.locationService.getGroups()
+      .subscribe({
+        next: (locations: any[]) => {
+
+          this.Groups = [
+            ...new Set(
+              locations.map(location => location.organization)
+            )
+          ];
+
+          console.log(this.Groups);
+        },
+        error: (err: Error) => console.error(err)
+      });
+  }
+
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-   {
-    Groups: 'SOM',
-    Location: 'Bangalore',
-    PurchaseDate: '12/12/2022',
-    InvoiceDate: '12/12/2022',
-    InvoiceAmount: 1000,
-    Vendor: 'Vendor A',
-    Payment: 'Paid',
-    Invoice: 'INV123',
-    Comments: 'No comments',
-    CreatedOn: '12/12/2022',
-    Aging: 5,
-    PossibleDuplicate: 'No',
-    Action: 'View'
-  },
-];

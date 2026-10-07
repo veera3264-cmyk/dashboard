@@ -75,7 +75,13 @@
       <th mat-header-cell *matHeaderCellDef>
         <select aria-label="Filter by group">
           <option>Select</option>
+          @for(group of Groups; track $index){
+          <option [value]="group">
+            {{ group }}
+          </option>
+          }
         </select>
+
       </th>
     </ng-container>
     <ng-container matColumnDef="filterLocation">
@@ -100,12 +106,16 @@
     </ng-container>
     <ng-container matColumnDef="filterPayment">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by payment"><option>All Payment</option></select>
+        <select aria-label="Filter by payment">
+          <option>All Payment</option>
+        </select>
       </th>
     </ng-container>
     <ng-container matColumnDef="filterInvoice">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by invoice"><option>Invoices</option></select>
+        <select aria-label="Filter by invoice">
+          <option>Invoices</option>
+        </select>
       </th>
     </ng-container>
     <ng-container matColumnDef="filterComments">
@@ -116,7 +126,9 @@
     </ng-container>
     <ng-container matColumnDef="filterAging">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by aging"><option>Aging</option></select>
+        <select aria-label="Filter by aging">
+          <option>Aging</option>
+        </select>
       </th>
     </ng-container>
     <ng-container matColumnDef="filterPossibleDuplicate">

@@ -9,9 +9,12 @@ export class LocationService {
 
   private locationUrl = 'http://localhost:8080/api/locations';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getLocation(): Observable<any[]> {
     return this.http.get<any[]>(this.locationUrl);
+  }
+  getGroups(): Observable<any> {
+    return this.http.get<any>(this.locationUrl)
   }
 }
