@@ -41,9 +41,9 @@ export class SearchCriteria implements OnInit {
   getLocation(): void {
     this.locationService.getLocation().subscribe({
       next: (locations) => {
-        setTimeout(() => {
+        
           this.locations = locations;
-        });
+       
       },
       error: (err) => console.error(err)
     });

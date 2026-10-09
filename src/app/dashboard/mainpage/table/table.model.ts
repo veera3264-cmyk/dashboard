@@ -11,6 +11,7 @@ invoice: string;
 comments: string;
 createdOn: string;
 aging: number;
-possibleDuplicate: boolean;
+possibleDuplicate: string;
 action: string;
+organization: string;
 }

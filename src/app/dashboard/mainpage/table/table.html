@@ -3,85 +3,85 @@
 
     <ng-container matColumnDef="Groups">
       <th mat-header-cell *matHeaderCellDef>Groups</th>
-      <td mat-cell *matCellDef="let element">{{ element.Groups }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.organization }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Location">
       <th mat-header-cell *matHeaderCellDef>Location</th>
-      <td mat-cell *matCellDef="let element">{{ element.Location }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.locationId  }}</td>
     </ng-container>
 
     <ng-container matColumnDef="PurchaseDate">
       <th mat-header-cell *matHeaderCellDef>Purchase Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.PurchaseDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.purchaseDate }}</td>
     </ng-container>
 
     <ng-container matColumnDef="PurchaseAmount">
       <th mat-header-cell *matHeaderCellDef>Purchase Amount</th>
-      <td mat-cell *matCellDef="let element">{{ element.PurchaseAmount ?? element.InvoiceAmount }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.purchaseAmount ?? element.invoiceAmount }}</td>
     </ng-container>
 
     <ng-container matColumnDef="InvoiceDate">
       <th mat-header-cell *matHeaderCellDef>Invoice Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.InvoiceDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.invoiceDate }}</td>
     </ng-container>
 
     <ng-container matColumnDef="InvoiceAmount">
       <th mat-header-cell *matHeaderCellDef>Invoice Amount</th>
-      <td mat-cell *matCellDef="let element">{{ element.InvoiceAmount }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.invoiceAmount }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Vendor">
       <th mat-header-cell *matHeaderCellDef>Vendor</th>
-      <td mat-cell *matCellDef="let element">{{ element.Vendor }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.vendor }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Payment">
       <th mat-header-cell *matHeaderCellDef>Payment</th>
-      <td mat-cell *matCellDef="let element">{{ element.Payment }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.payment }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Invoice">
       <th mat-header-cell *matHeaderCellDef>Invoice</th>
-      <td mat-cell *matCellDef="let element">{{ element.Invoice }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.invoice }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Comments">
       <th mat-header-cell *matHeaderCellDef>Comments</th>
-      <td mat-cell *matCellDef="let element">{{ element.Comments }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.comments }}</td>
     </ng-container>
 
     <ng-container matColumnDef="CreatedOn">
       <th mat-header-cell *matHeaderCellDef>Created On</th>
-      <td mat-cell *matCellDef="let element">{{ element.CreatedOn }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.createdOn }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Aging">
       <th mat-header-cell *matHeaderCellDef>Aging</th>
-      <td mat-cell *matCellDef="let element">{{ element.Aging }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.aging }}</td>
     </ng-container>
 
     <ng-container matColumnDef="PossibleDuplicate">
       <th mat-header-cell *matHeaderCellDef>Possible Duplicate</th>
-      <td mat-cell *matCellDef="let element">{{ element.PossibleDuplicate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.possibleDuplicate }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let element">{{ element.Action }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.action }}</td>
     </ng-container>
 
     <ng-container matColumnDef="filterGroups">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by group">
-          <option>Select</option>
-          @for(group of Groups; track $index){
+        <select aria-label="Filter by group" [value]="selectedGroup"
+          (change)="selectedGroup = $any($event.target).value; onGroupChange()">
+          <option value="">Select</option>
+          @for (group of Groups; track $index) {
           <option [value]="group">
             {{ group }}
           </option>
           }
         </select>
-
       </th>
     </ng-container>
     <ng-container matColumnDef="filterLocation">

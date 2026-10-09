@@ -16,12 +16,20 @@ import { LocationService } from '../../../../services/location.service';
   styleUrl: './table.css',
 })
 export class Table implements AfterViewInit, OnInit {
+  
+
+
+
 
   constructor(private purchaseService: PurchaseService,
     private locationService: LocationService
   ) { }
 
   Groups: any[] = [];
+
+  allPurchases: Purchase[] = [];
+
+  selectedGroup = null;
 
   displayedColumns: string[] = [
     'Groups',
@@ -74,7 +82,10 @@ export class Table implements AfterViewInit, OnInit {
     this.purchaseService.getPurchases()
       .subscribe({
         next: (data) => {
+
           this.dataSource.data = data;
+          this.allPurchases = data;
+          console.log(this.allPurchases)
         },
         error: (err) => console.error(err)
       });
@@ -89,12 +100,26 @@ export class Table implements AfterViewInit, OnInit {
               locations.map(location => location.organization)
             )
           ];
-
           console.log(this.Groups);
         },
         error: (err: Error) => console.error(err)
       });
   }
+  onGroupChange(): void {
 
+
+    if (!this.selectedGroup) {
+      this.dataSource.data = this.allPurchases;
+      return;
+    }
+
+    this.dataSource.data = this.allPurchases.filter(
+      purchase => purchase.organization === this.selectedGroup
+    );
+
+    
+  }
 }
+
+
 
