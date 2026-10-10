@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LocationService {
+ 
 
   private locationUrl = 'http://localhost:8080/api/locations';
 
@@ -17,4 +18,6 @@ export class LocationService {
   getGroups(): Observable<any> {
     return this.http.get<any>(this.locationUrl)
   }
+
+   
 }

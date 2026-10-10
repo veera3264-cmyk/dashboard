@@ -6,9 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PurchaseService {
-  getGroups() {
-    throw new Error('Method not implemented.');
-  }
+ 
 
   private purchaseUrl = 'http://localhost:8080/api/purchases';
 
@@ -24,5 +22,11 @@ export class PurchaseService {
       this.purchaseUrl,
       purchaseData
     );
+  }
+  getPayment() {
+    return this.http.get<any>(this.purchaseUrl);
+  }
+  getAttachment(){
+    return this.http.get<any>(this.purchaseUrl)
   }
 }
