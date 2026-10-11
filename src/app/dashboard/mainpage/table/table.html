@@ -101,7 +101,8 @@
     </ng-container>
     <ng-container matColumnDef="filterVendor">
       <th mat-header-cell *matHeaderCellDef>
-        <input type="text" aria-label="Filter by vendor" placeholder="Type Vendor Name">
+        <input type="text" aria-label="Filter by vendor" placeholder="Type Vendor Name" [(ngModel)]="selectedVendor"
+          (input)="applyFilters()">
       </th>
     </ng-container>
     <ng-container matColumnDef="filterPayment">
@@ -139,6 +140,11 @@
       <th mat-header-cell *matHeaderCellDef>
         <select aria-label="Filter by aging">
           <option>Aging</option>
+          <option> < 4 Hours</option>
+          <option> 4-8 Hours</option>
+          <option> 8-24 Hours</option>
+          <option> > 24 Hours</option>
+
         </select>
       </th>
     </ng-container>

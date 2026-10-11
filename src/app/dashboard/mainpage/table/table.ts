@@ -32,9 +32,11 @@ export class Table implements AfterViewInit, OnInit {
 
   allPurchases: Purchase[] = [];
 
-  selectedGroup: string | null = null;
+  selectedGroup: string | null = '';
   selectedPayment: string | null = null;
-  selectedInvoices: string | null = '';
+  selectedVendor: string | null = '';
+  selectedInvoices:string | null =null;
+  searchInvoiceText: string | null=null;
 
   displayedColumns: string[] = [
     'Groups',
@@ -147,7 +149,9 @@ export class Table implements AfterViewInit, OnInit {
 
     this.applyFilters();
   }
-
+  onSearchVendor():void {
+    this.applyFilters();
+  }
   ongetAttachment(): void {
 
     this.applyFilters();
@@ -177,6 +181,14 @@ export class Table implements AfterViewInit, OnInit {
       filteredData = filteredData.filter(
         purchase => !purchase.invoice || purchase.invoice.trim() === ''
       )
+    }
+    const selectedVendor = this.selectedVendor?.trim();
+    if (selectedVendor) {
+      filteredData = filteredData.filter(
+        purchase =>
+          purchase.vendor?.toLowerCase()
+            .includes(selectedVendor.toLowerCase())
+      );
     }
 
     this.dataSource.data = filteredData;
