@@ -11,10 +11,15 @@
             <button type="button" class="btn btn-secondary btn-block">90 Days</button>
         </div>
         <div class="date-picker-container">
-            <app-datepicker />
+            <app-datepicker (dateRangeSelected)="onDateSelected($event)">
+            </app-datepicker>
+
+
+
         </div>
     </div>
-    <app-search-criteria />
+    <app-search-criteria (purchasesFiltered)="onPurchasesFiltered($event)">
+    </app-search-criteria>
     <app-tabsets />
-    <app-table />
+    <app-table [purchases]="filteredPurchases" [selectedRange]="selectedDateRange"></app-table>
 </div>

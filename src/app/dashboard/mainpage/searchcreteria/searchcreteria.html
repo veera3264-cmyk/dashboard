@@ -1,59 +1,144 @@
 <div class="filter-container">
 
     <div class="location-filter">
-        @if(locations.length > 0){
-        <mat-form-field class="search" appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Select Location Or Location Name</mat-label>
 
-            <mat-select [(ngModel)]="selectedLocation">
-                @for(location of locations; track $index){
-                <mat-option [value]="location.locationId">
-                    {{ location.locationId }} - {{ location.locationName }}
-                </mat-option>
+        @if (locations && locations.length > 0) {
+
+            <mat-form-field
+                class="search"
+                appearance="outline"
+                subscriptSizing="dynamic">
+
+                <mat-label>
+                    Select Location Or Location Name
+                </mat-label>
+
+                <mat-select
+                    [(ngModel)]="selectedLocation"
+                    (selectionChange)="onLocationSelected()">
+
+                    @for (location of locations; track $index) {
+
+                        <mat-option
+                            [value]="location.locationId">
+
+                            {{ location.locationId }}
+                            -
+                            {{ location.locationName }}
+
+                        </mat-option>
+
+                    }
+
+                </mat-select>
+
+                @if (selectedLocation !== null) {
+
+                    <button
+                        matSuffix
+                        type="button"
+                        class="location-clear-button"
+                        aria-label="Clear location search"
+                        (click)="clearLocation($event)">
+
+                        ×
+
+                    </button>
+
                 }
-            </mat-select>
-            @if (selectedLocation !== null) {
-            <button matSuffix type="button" class="location-clear-button" aria-label="Clear location search"
-                (click)="clearLocation($event)">
-                ×
-            </button>
-            }
-        </mat-form-field>
+
+            </mat-form-field>
+
         }
+
     </div>
+
     <div class="purchasedate">
-        <mat-form-field appearance="outline" class="date-range-field" subscriptSizing="dynamic">
-            <mat-label>Select Purchase Date</mat-label>
+
+        <mat-form-field
+            appearance="outline"
+            class="date-range-field"
+            subscriptSizing="dynamic">
+
+            <mat-label>
+                Select Purchase Date
+            </mat-label>
 
             <mat-date-range-input [rangePicker]="purchasePicker">
-                <input matStartDate [(ngModel)]="purchaseStartDate" placeholder="Start Date">
 
-                <input matEndDate [(ngModel)]="purchaseEndDate" placeholder="End Date">
+                <input
+                    matStartDate
+                    [(ngModel)]="purchaseStartDate"
+                    placeholder="Start Date">
+
+                <input
+                    matEndDate
+                    [(ngModel)]="purchaseEndDate"
+                    placeholder="End Date">
+
             </mat-date-range-input>
 
-            <mat-datepicker-toggle matIconSuffix [for]="purchasePicker">
+            <mat-datepicker-toggle
+                matIconSuffix
+                [for]="purchasePicker">
             </mat-datepicker-toggle>
 
-            <mat-date-range-picker #purchasePicker></mat-date-range-picker>
+            <mat-date-range-picker
+                #purchasePicker>
+            </mat-date-range-picker>
+
         </mat-form-field>
+
     </div>
+
     <div class="invoicedate">
-        <mat-form-field appearance="outline" class="date-range-field" subscriptSizing="dynamic">
-            <mat-label>Select Invoice Uploaded Date</mat-label>
+
+        <mat-form-field
+            appearance="outline"
+            class="date-range-field"
+            subscriptSizing="dynamic">
+
+            <mat-label>
+                Select Invoice Uploaded Date
+            </mat-label>
 
             <mat-date-range-input [rangePicker]="invoicePicker">
-                <input matStartDate [(ngModel)]="invoiceStartDate" placeholder="Start Date">
 
-                <input matEndDate [(ngModel)]="invoiceEndDate" placeholder="End Date">
+                <input
+                    matStartDate
+                    [(ngModel)]="invoiceStartDate"
+                    placeholder="Start Date">
+
+                <input
+                    matEndDate
+                    [(ngModel)]="invoiceEndDate"
+                    placeholder="End Date">
+
             </mat-date-range-input>
 
-            <mat-datepicker-toggle matIconSuffix [for]="invoicePicker">
+            <mat-datepicker-toggle
+                matIconSuffix
+                [for]="invoicePicker">
             </mat-datepicker-toggle>
 
-            <mat-date-range-picker #invoicePicker></mat-date-range-picker>
+            <mat-date-range-picker
+                #invoicePicker>
+            </mat-date-range-picker>
+
         </mat-form-field>
+
     </div>
+
     <div class="button-container">
-        <button class="clear-button" (click)="onClear()">Clear Search Criteria</button>
+
+        <button
+            class="clear-button"
+            (click)="onClear()">
+
+            Clear Search Criteria
+
+        </button>
+
     </div>
+
 </div>

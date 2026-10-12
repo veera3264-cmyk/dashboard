@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatDatepickerModule
@@ -8,6 +8,10 @@ import {
 } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { PurchaseService } from '../../../../services/purchase.service';
+import { HttpClient } from '@angular/common/http';
+import { filter } from 'rxjs';
+import { Purchase } from '../table/table.model';
 
 @Component({
   selector: 'app-datepicker',
@@ -17,21 +21,52 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    
+    MatNativeDateModule
   ],
   templateUrl: './datepicker.html',
   styleUrls: ['./datepicker.css']
 })
-export class Datepicker {
+export class Datepicker implements OnInit {
 
-  startDate!: Date;
-  endDate!: Date;
+  allPurchases: any[] = [];
+  selectedDatePurchases: any[] = [];
+
+  startDate: Date = new Date();
+  endDate: Date = new Date();
+  @Output() dateRangeSelected = new EventEmitter<any>();
 
   constructor() {
-    this.startDate = new Date();
 
-    this.endDate = new Date();
-    this.endDate.setDate(this.startDate.getDate() + 7);
+    this.endDate = new Date(); // Today
+
+    this.startDate = new Date();
+    this.startDate.setDate(
+      this.endDate.getDate() - 7
+    );
+
+  }
+
+
+  ngOnInit(): void {
+    this.emitDateRange();
+  }
+  emitDateRange(): void {
+    this.dateRangeSelected.emit({
+      startDate: this.startDate,
+      endDate: this.endDate
+    })
+    
+  }
+  onDateChange(): void {
+    this.emitDateRange()
   }
 }
+
+
+
+
+
+
+
+
+

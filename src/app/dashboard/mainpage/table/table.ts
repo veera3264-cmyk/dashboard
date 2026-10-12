@@ -1,12 +1,22 @@
-import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ViewChild,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Input
+} from '@angular/core';
+
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
 
 import { Purchase } from './table.model';
-import { PurchaseService } from '../../../../services/purchase.service';
 import { LocationService } from '../../../../services/location.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { Output, EventEmitter } from '@angular/core';
 import { filter } from 'rxjs';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-table',
@@ -19,11 +29,19 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
-export class Table implements AfterViewInit, OnInit {
+export class Table implements OnInit, AfterViewInit, OnChanges {
+
+  @Input() purchases: Purchase[] = [];
+  @Input()
+  selectedRange: {
+    startDate: Date;
+    endDate: Date;
+  } | null = null;
+
 
   constructor(
-    private purchaseService: PurchaseService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private cd: ChangeDetectorRef
   ) { }
 
   Groups: string[] = [];
@@ -35,8 +53,11 @@ export class Table implements AfterViewInit, OnInit {
   selectedGroup: string | null = '';
   selectedPayment: string | null = null;
   selectedVendor: string | null = '';
-  selectedInvoices:string | null =null;
-  searchInvoiceText: string | null=null;
+  selectedInvoices: string | null = null;
+  selectedDatePurchase: string | null = null;
+  searchInvoiceText: string | null = null;
+
+
 
   displayedColumns: string[] = [
     'Groups',
@@ -78,36 +99,38 @@ export class Table implements AfterViewInit, OnInit {
   paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.loadPurchase();
     this.getGroups();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['purchases']) {
+
+      setTimeout(() => {
+        this.allPurchases = [...this.purchases];
+        this.dataSource.data = [...this.purchases];
+
+        
+
+        this.getPayment();
+        this.getAttachment();
+      });
+      this.cd.detectChanges();
+    }
+
+    if (changes['selectedRange']) {
+      console.log(this.selectedRange)
+      this.applyFilters();
+    }
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
-  private loadPurchase(): void {
-    this.purchaseService.getPurchases()
-      .subscribe({
-        next: (data: Purchase[]) => {
-
-          this.allPurchases = data;
-          this.dataSource.data = data;
-
-          this.getPayment();
-          this.getAttachment()
-
-
-        },
-        error: (err) => console.error(err)
-      });
-  }
-
   private getGroups(): void {
     this.locationService.getGroups()
       .subscribe({
         next: (locations: any[]) => {
-
           this.Groups = [
             ...new Set(
               locations
@@ -115,14 +138,12 @@ export class Table implements AfterViewInit, OnInit {
                 .filter(org => org)
             )
           ];
-
         },
         error: (err) => console.error(err)
       });
   }
 
   private getPayment(): void {
-
     this.payments = [
       ...new Set(
         this.allPurchases
@@ -131,7 +152,8 @@ export class Table implements AfterViewInit, OnInit {
       )
     ];
   }
-  getAttachment(): void {
+
+  private getAttachment(): void {
     this.invoices = [
       ...new Set(
         this.allPurchases
@@ -146,16 +168,18 @@ export class Table implements AfterViewInit, OnInit {
   }
 
   onPaymentChange(): void {
+    this.applyFilters();
+  }
 
+  onSearchVendor(): void {
     this.applyFilters();
   }
-  onSearchVendor():void {
-    this.applyFilters();
-  }
+
   ongetAttachment(): void {
-
     this.applyFilters();
   }
+
+
 
   applyFilters(): void {
 
@@ -172,17 +196,23 @@ export class Table implements AfterViewInit, OnInit {
         purchase => purchase.payment === this.selectedPayment
       );
     }
+
     if (this.selectedInvoices === 'With Invoice') {
       filteredData = filteredData.filter(
-        purchase => purchase.invoice && purchase.invoice.trim() != ''
-      )
+        purchase => purchase.invoice &&
+          purchase.invoice.trim() !== ''
+      );
     }
+
     if (this.selectedInvoices === 'Without Invoice') {
       filteredData = filteredData.filter(
-        purchase => !purchase.invoice || purchase.invoice.trim() === ''
-      )
+        purchase => !purchase.invoice ||
+          purchase.invoice.trim() === ''
+      );
     }
+
     const selectedVendor = this.selectedVendor?.trim();
+
     if (selectedVendor) {
       filteredData = filteredData.filter(
         purchase =>
@@ -191,6 +221,30 @@ export class Table implements AfterViewInit, OnInit {
       );
     }
 
+    if (this.selectedRange) {
+
+      const startDate = new Date(this.selectedRange.startDate);
+      startDate;
+
+      const endDate = new Date(this.selectedRange.endDate);
+      endDate;
+
+      filteredData = filteredData.filter(purchase => {
+
+        const purchaseDate = new Date(purchase.createdOn);
+        
+        return (
+          purchaseDate >= startDate &&
+          purchaseDate <= endDate
+        );
+        
+
+      });
+    
+
+    }
+
+
     this.dataSource.data = filteredData;
   }
-}
+} 

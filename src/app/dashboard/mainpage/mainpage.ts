@@ -19,6 +19,22 @@ import { Table } from './table/table';
 })
 
 export class Mainpage {
-  
+  filteredPurchases: any[] = [];
+  selectedDateRange: {
+    startDate: Date,
+    endDate: Date;
+  } | null = null;
+
+  onPurchasesFiltered(purchases: any[]): void {
+
+    this.filteredPurchases = purchases;
+  }
+  onDateSelected(range: {
+    startDate: Date;
+    endDate: Date;
+  }): void {
+    this.selectedDateRange = range;
+  }
+
 
 }

@@ -6,27 +6,27 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PurchaseService {
- 
+
 
   private purchaseUrl = 'http://localhost:8080/api/purchases';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getPurchases(): Observable<any> {
-    return this.http.get<any>(this.purchaseUrl);
-  }
-  
+
 
   addPurchase(purchaseData: any): Observable<any> {
     return this.http.post<any>(
       this.purchaseUrl,
-      purchaseData
+      purchaseData 
     );
   }
   getPayment() {
     return this.http.get<any>(this.purchaseUrl);
   }
-  getAttachment(){
+  getAttachment() {
     return this.http.get<any>(this.purchaseUrl)
+  }
+  getPurchases(): Observable<any> {
+    return this.http.get<any>(this.purchaseUrl);
   }
 }
