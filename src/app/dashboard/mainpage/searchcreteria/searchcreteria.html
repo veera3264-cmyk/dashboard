@@ -2,7 +2,9 @@
 
     <div class="location-filter">
 
-        @if (locations && locations.length > 0) {
+        @if (locationError()) {
+            <p role="alert">{{ locationError() }}</p>
+        } @else if (locations().length > 0) {
 
             <mat-form-field
                 class="search"
@@ -14,13 +16,13 @@
                 </mat-label>
 
                 <mat-select
-                    [(ngModel)]="selectedLocation"
-                    (selectionChange)="onLocationSelected()">
+                    [ngModel]="selectedLocation()"
+                    (ngModelChange)="selectedLocation.set($event); emitFilters()">
 
-                    @for (location of locations; track $index) {
+                    @for (location of locations(); track location.locationId) {
 
                         <mat-option
-                            [value]="location.locationId">
+                            [value]="location.locationId.toString()">
 
                             {{ location.locationId }}
                             -
@@ -32,7 +34,7 @@
 
                 </mat-select>
 
-                @if (selectedLocation !== null) {
+                @if (selectedLocation() !== null) {
 
                     <button
                         matSuffix
@@ -68,12 +70,14 @@
 
                 <input
                     matStartDate
-                    [(ngModel)]="purchaseStartDate"
+                    [ngModel]="purchaseStartDate()"
+                    (ngModelChange)="purchaseStartDate.set($event); emitFilters()"
                     placeholder="Start Date">
 
                 <input
                     matEndDate
-                    [(ngModel)]="purchaseEndDate"
+                    [ngModel]="purchaseEndDate()"
+                    (ngModelChange)="purchaseEndDate.set($event); emitFilters()"
                     placeholder="End Date">
 
             </mat-date-range-input>
@@ -106,12 +110,14 @@
 
                 <input
                     matStartDate
-                    [(ngModel)]="invoiceStartDate"
+                    [ngModel]="invoiceStartDate()"
+                    (ngModelChange)="invoiceStartDate.set($event); emitFilters()"
                     placeholder="Start Date">
 
                 <input
                     matEndDate
-                    [(ngModel)]="invoiceEndDate"
+                    [ngModel]="invoiceEndDate()"
+                    (ngModelChange)="invoiceEndDate.set($event); emitFilters()"
                     placeholder="End Date">
 
             </mat-date-range-input>
@@ -132,6 +138,7 @@
     <div class="button-container">
 
         <button
+            type="button"
             class="clear-button"
             (click)="onClear()">
 

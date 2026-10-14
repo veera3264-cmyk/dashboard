@@ -1,21 +1,25 @@
-import { Component, Inject, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MatDatepickerModule
-} from '@angular/material/datepicker';
-import {
-  MatNativeDateModule
-} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { PurchaseService } from '../../../../services/purchase.service';
-import { HttpClient } from '@angular/common/http';
-import { filter } from 'rxjs';
-import { Purchase } from '../table/table.model';
+
+import { DateRangeFilter } from '../purchase-filters.model';
+
+function recentDateRange(days: number): DateRangeFilter {
+  const endDate = new Date();
+  endDate.setHours(0, 0, 0, 0);
+
+  const startDate = new Date(endDate);
+  startDate.setDate(startDate.getDate() - days + 1);
+
+  return { startDate, endDate };
+}
 
 @Component({
   selector: 'app-datepicker',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     MatFormFieldModule,
@@ -24,49 +28,74 @@ import { Purchase } from '../table/table.model';
     MatNativeDateModule
   ],
   templateUrl: './datepicker.html',
-  styleUrls: ['./datepicker.css']
+  styleUrl: './datepicker.css'
 })
 export class Datepicker implements OnInit {
+  readonly resetToken = input(0);
+  readonly dateRangeSelected = output<DateRangeFilter | null>();
+  readonly startDate = signal<Date | null>(null);
+  readonly endDate = signal<Date | null>(null);
+  readonly selectedPresetDays = signal<number | null>(null);
+  readonly quickRanges = [
+    { label: 'Today', days: 1 },
+    { label: '2 Days', days: 2 },
+    { label: '5 Days', days: 5 },
+    { label: '7 Days', days: 7 },
+    { label: '14 Days', days: 14 },
+    { label: '30 Days', days: 30 },
+    { label: '90 Days', days: 90 }
+  ];
 
-  allPurchases: any[] = [];
-  selectedDatePurchases: any[] = [];
-
-  startDate: Date = new Date();
-  endDate: Date = new Date();
-  @Output() dateRangeSelected = new EventEmitter<any>();
+  private lastResetToken = 0;
 
   constructor() {
+    effect(() => {
+      const resetToken = this.resetToken();
+      if (resetToken === this.lastResetToken) {
+        return;
+      }
 
-    this.endDate = new Date(); // Today
-
-    this.startDate = new Date();
-    this.startDate.setDate(
-      this.endDate.getDate() - 7
-    );
-
+      this.lastResetToken = resetToken;
+      this.startDate.set(null);
+      this.endDate.set(null);
+      this.selectedPresetDays.set(null);
+    });
   }
-
 
   ngOnInit(): void {
     this.emitDateRange();
   }
-  emitDateRange(): void {
-    this.dateRangeSelected.emit({
-      startDate: this.startDate,
-      endDate: this.endDate
-    })
-    
+
+  selectQuickRange(days: number): void {
+    const range = recentDateRange(days);
+    this.startDate.set(range.startDate);
+    this.endDate.set(range.endDate);
+    this.selectedPresetDays.set(days);
+    this.dateRangeSelected.emit(range);
   }
+
   onDateChange(): void {
-    this.emitDateRange()
+    this.selectedPresetDays.set(null);
+
+    const startDate = this.startDate();
+    const endDate = this.endDate();
+
+    if (!startDate || !endDate || startDate > endDate) {
+      this.dateRangeSelected.emit(null);
+      return;
+    }
+
+    this.dateRangeSelected.emit({ startDate, endDate });
+  }
+
+  private emitDateRange(): void {
+    const startDate = this.startDate();
+    const endDate = this.endDate();
+
+    if (startDate && endDate) {
+      this.dateRangeSelected.emit({ startDate, endDate });
+    } else {
+      this.dateRangeSelected.emit(null);
+    }
   }
 }
-
-
-
-
-
-
-
-
-

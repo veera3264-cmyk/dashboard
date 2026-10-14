@@ -44,6 +44,10 @@ To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use th
 ng test
 ```
 
+## Purchase dashboard data flow
+
+See [Purchase dashboard changes](./docs/purchase-dashboard-changes.md) for the purchase-loading architecture, filter flow, and build configuration changes.
+
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:

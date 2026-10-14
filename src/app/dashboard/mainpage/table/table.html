@@ -8,12 +8,13 @@
 
     <ng-container matColumnDef="Location">
       <th mat-header-cell *matHeaderCellDef>Location</th>
-      <td mat-cell *matCellDef="let element">{{ element.locationId }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.locationId }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="PurchaseDate">
       <th mat-header-cell *matHeaderCellDef>Purchase Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.purchaseDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.purchaseDate | date:'dd/MM/yyyy':'UTC' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="PurchaseAmount">
@@ -23,7 +24,7 @@
 
     <ng-container matColumnDef="InvoiceDate">
       <th mat-header-cell *matHeaderCellDef>Invoice Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.invoiceDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.invoiceDate | date:'dd/MM/yyyy':'UTC' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="InvoiceAmount">
@@ -53,7 +54,7 @@
 
     <ng-container matColumnDef="CreatedOn">
       <th mat-header-cell *matHeaderCellDef>Created On</th>
-      <td mat-cell *matCellDef="let element">{{ element.createdOn }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.createdOn | date:'dd/MM/yyyy':'UTC' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Aging">
@@ -73,10 +74,12 @@
 
     <ng-container matColumnDef="filterGroups">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by group" [value]="selectedGroup"
-          (change)="selectedGroup = $any($event.target).value; onGroupChange()">
+        <select
+          aria-label="Filter by group"
+          [ngModel]="selectedGroup()"
+          (ngModelChange)="onGroupChange($event)">
           <option value="">Select</option>
-          @for (group of Groups; track $index) {
+          @for (group of groups(); track group) {
           <option [value]="group">
             {{ group }}
           </option>
@@ -101,16 +104,22 @@
     </ng-container>
     <ng-container matColumnDef="filterVendor">
       <th mat-header-cell *matHeaderCellDef>
-        <input type="text" aria-label="Filter by vendor" placeholder="Type Vendor Name" [(ngModel)]="selectedVendor"
-          (input)="applyFilters()">
+        <input
+          type="text"
+          aria-label="Filter by vendor"
+          placeholder="Type Vendor Name"
+          [ngModel]="selectedVendor()"
+          (ngModelChange)="onVendorChange($event)">
       </th>
     </ng-container>
     <ng-container matColumnDef="filterPayment">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by payment" [value]='selectedPayment'
-          (change)="selectedPayment = $any($event.target).value; onPaymentChange()">
+        <select
+          aria-label="Filter by payment"
+          [ngModel]="selectedPayment()"
+          (ngModelChange)="onPaymentChange($event)">
           <option value="">All Payment</option>
-          @for (payment of payments; track $index){
+          @for (payment of payments(); track payment) {
           <option [value]="payment">
             {{payment}}
           </option>
@@ -121,12 +130,13 @@
     </ng-container>
     <ng-container matColumnDef="filterInvoice">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by invoice" [(ngModel)]="selectedInvoices" (change)="applyFilters()">
-
+        <select
+          aria-label="Filter by invoice"
+          [ngModel]="selectedInvoices() ?? ''"
+          (ngModelChange)="onInvoiceChange($event)">
           <option value="">Invoices</option>
-          <option value="With Invoice">With Invoice</option>
-          <option value="Without Invoice">Without Invoice</option>
-
+          <option value="with">With Invoice</option>
+          <option value="without">Without Invoice</option>
         </select>
       </th>
     </ng-container>
@@ -138,14 +148,15 @@
     </ng-container>
     <ng-container matColumnDef="filterAging">
       <th mat-header-cell *matHeaderCellDef>
-        <select aria-label="Filter by aging">
-          <option>Aging</option>
-          <option>
-            < 4 Hours</option>
-          <option> 4-8 Hours</option>
-          <option> 8-24 Hours</option>
-          <option> > 24 Hours</option>
-
+        <select
+          aria-label="Filter by aging"
+          [ngModel]="selectedAging() ?? ''"
+          (ngModelChange)="onAgingChange($event)">
+          <option value="">All Aging</option>
+          <option value="under4">&lt; 4 Hours</option>
+          <option value="4to8">4–8 Hours</option>
+          <option value="8to24">8–24 Hours</option>
+          <option value="over24">&gt; 24 Hours</option>
         </select>
       </th>
     </ng-container>
@@ -159,6 +170,11 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-header-row *matHeaderRowDef="filterColumns" class="filter-row"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+        No purchases match the selected filters.
+      </td>
+    </tr>
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons aria-label="Select page of periodic elements">

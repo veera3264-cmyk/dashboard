@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { LoginService } from '../../../services/login.service';
 import { UserService } from '../../../services/user.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })

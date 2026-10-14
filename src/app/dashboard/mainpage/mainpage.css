@@ -21,67 +21,8 @@
     margin: 6px 0 16px;
 }
 
-.date-filter-controls {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 1%;
-}
-
-.quick-ranges {
-    display: flex;
-    flex: 0 1 auto;
-    flex-wrap: wrap;
-    gap: 20px;
-    min-width: 0;
-}
-
-.btn-block {
-    box-sizing: border-box;
-    flex: 1 1 110px;
-    width: 132px;
-    min-width: 100px;
-    max-width: 132px;
-    height: 35px;
-    margin: 0;
-    padding: 0 10px;
-    white-space: nowrap;
-}
-
-
-
-.date-picker-container {
-    flex: 1 1 360px;
-    width: min(588px, 100%);
-    max-width: 588px;
-    min-width: 280px;
-    margin: 0;
-}
-
-app-datepicker {
-    display: block;
-    width: 100%;
-}
-
 @media (max-width: 640px) {
     .mainpage {
         padding: 12px;
-    }
-
-    .date-filter-controls,
-    .quick-ranges {
-        gap: 10px;
-    }
-
-    .btn-block {
-        flex: 1 1 calc(33.333% - 10px);
-        max-width: none;
-    }
-
-    .date-picker-container {
-        flex-basis: 100%;
-        max-width: none;
-        min-width: 0;
     }
 }

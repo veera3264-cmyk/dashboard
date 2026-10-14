@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Purchase } from '../app/models/purchase.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +15,13 @@ export class PurchaseService {
 
 
 
-  addPurchase(purchaseData: any): Observable<any> {
-    return this.http.post<any>(
+  addPurchase(purchaseData: Partial<Purchase>): Observable<Purchase> {
+    return this.http.post<Purchase>(
       this.purchaseUrl,
       purchaseData 
     );
   }
-  getPayment() {
-    return this.http.get<any>(this.purchaseUrl);
-  }
-  getAttachment() {
-    return this.http.get<any>(this.purchaseUrl)
-  }
-  getPurchases(): Observable<any> {
-    return this.http.get<any>(this.purchaseUrl);
+  getPurchases(): Observable<Purchase[]> {
+    return this.http.get<Purchase[]>(this.purchaseUrl);
   }
 }

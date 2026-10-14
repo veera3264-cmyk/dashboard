@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import {  Router } from '@angular/router';
 
@@ -13,6 +13,7 @@ import {  Router } from '@angular/router';
 export class Navbar {
 
   EmailID: string = '';
+  readonly isMenuOpen = signal(false);
 
   constructor(private userService: UserService,
     private router: Router
@@ -26,6 +27,10 @@ export class Navbar {
     sessionStorage.clear();
     localStorage.clear();
     this.router.navigate(['']);
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen.update(isOpen => !isOpen);
   }
 }
 import { MatIconModule } from '@angular/material/icon';

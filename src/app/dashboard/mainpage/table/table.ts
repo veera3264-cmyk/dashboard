@@ -1,65 +1,54 @@
+import { DatePipe } from '@angular/common';
 import {
-  Component,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
   ViewChild,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  Input
+  computed,
+  effect,
+  input,
+  output,
+  signal
 } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { FormsModule } from '@angular/forms';
 
-import { Purchase } from './table.model';
-import { LocationService } from '../../../../services/location.service';
-import { ChangeDetectorRef } from '@angular/core';
-import { Output, EventEmitter } from '@angular/core';
-import { filter } from 'rxjs';
+import { AgingFilter, InvoiceFilter, TableFilters } from '../purchase-filters.model';
+import { Purchase } from '../../../models/purchase.model';
 
 @Component({
   selector: 'app-table',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    DatePipe,
     MatTableModule,
     MatPaginatorModule,
     FormsModule
   ],
   templateUrl: './table.html',
-  styleUrl: './table.css',
+  styleUrl: './table.css'
 })
-export class Table implements OnInit, AfterViewInit, OnChanges {
+export class Table implements AfterViewInit {
+  readonly resetToken = input(0);
+  readonly purchases = input<Purchase[]>([]);
+  readonly allPurchases = input<Purchase[]>([]);
+  readonly filtersChanged = output<TableFilters>();
 
-  @Input() purchases: Purchase[] = [];
-  @Input()
-  selectedRange: {
-    startDate: Date;
-    endDate: Date;
-  } | null = null;
+  readonly groups = computed(() => this.uniqueValues(
+    this.allPurchases().map(purchase => purchase.organization)
+  ));
+  readonly payments = computed(() => this.uniqueValues(
+    this.allPurchases().map(purchase => purchase.payment)
+  ));
 
+  readonly selectedGroup = signal('');
+  readonly selectedPayment = signal('');
+  readonly selectedVendor = signal('');
+  readonly selectedInvoices = signal<InvoiceFilter>(null);
+  readonly selectedAging = signal<AgingFilter>(null);
 
-  constructor(
-    private locationService: LocationService,
-    private cd: ChangeDetectorRef
-  ) { }
-
-  Groups: string[] = [];
-  payments: string[] = [];
-  invoices: string[] = [];
-
-  allPurchases: Purchase[] = [];
-
-  selectedGroup: string | null = '';
-  selectedPayment: string | null = null;
-  selectedVendor: string | null = '';
-  selectedInvoices: string | null = null;
-  selectedDatePurchase: string | null = null;
-  searchInvoiceText: string | null = null;
-
-
-
-  displayedColumns: string[] = [
+  readonly displayedColumns = [
     'Groups',
     'Location',
     'PurchaseDate',
@@ -73,10 +62,10 @@ export class Table implements OnInit, AfterViewInit, OnChanges {
     'CreatedOn',
     'Aging',
     'PossibleDuplicate',
-    'Action',
+    'Action'
   ];
 
-  filterColumns: string[] = [
+  readonly filterColumns = [
     'filterGroups',
     'filterLocation',
     'filterPurchaseDate',
@@ -90,161 +79,84 @@ export class Table implements OnInit, AfterViewInit, OnChanges {
     'filterCreatedOn',
     'filterAging',
     'filterPossibleDuplicate',
-    'filterAction',
+    'filterAction'
   ];
 
-  dataSource = new MatTableDataSource<Purchase>([]);
+  readonly dataSource = new MatTableDataSource<Purchase>([]);
 
   @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+  private paginator?: MatPaginator;
 
-  ngOnInit(): void {
-    this.getGroups();
-  }
+  private lastResetToken = 0;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['purchases']) {
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.purchases();
+      this.paginator?.firstPage();
+    });
 
-      setTimeout(() => {
-        this.allPurchases = [...this.purchases];
-        this.dataSource.data = [...this.purchases];
+    effect(() => {
+      const resetToken = this.resetToken();
+      if (resetToken === this.lastResetToken) {
+        return;
+      }
 
-        
-
-        this.getPayment();
-        this.getAttachment();
-      });
-      this.cd.detectChanges();
-    }
-
-    if (changes['selectedRange']) {
-      console.log(this.selectedRange)
-      this.applyFilters();
-    }
+      this.lastResetToken = resetToken;
+      this.selectedGroup.set('');
+      this.selectedPayment.set('');
+      this.selectedVendor.set('');
+      this.selectedInvoices.set(null);
+      this.selectedAging.set(null);
+    });
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  private getGroups(): void {
-    this.locationService.getGroups()
-      .subscribe({
-        next: (locations: any[]) => {
-          this.Groups = [
-            ...new Set(
-              locations
-                .map(location => location.organization)
-                .filter(org => org)
-            )
-          ];
-        },
-        error: (err) => console.error(err)
-      });
-  }
-
-  private getPayment(): void {
-    this.payments = [
-      ...new Set(
-        this.allPurchases
-          .map(purchase => purchase.payment)
-          .filter(payment => payment)
-      )
-    ];
-  }
-
-  private getAttachment(): void {
-    this.invoices = [
-      ...new Set(
-        this.allPurchases
-          .map(purchase => purchase.invoice)
-          .filter(invoice => invoice)
-      )
-    ];
-  }
-
-  onGroupChange(): void {
-    this.applyFilters();
-  }
-
-  onPaymentChange(): void {
-    this.applyFilters();
-  }
-
-  onSearchVendor(): void {
-    this.applyFilters();
-  }
-
-  ongetAttachment(): void {
-    this.applyFilters();
-  }
-
-
-
-  applyFilters(): void {
-
-    let filteredData = [...this.allPurchases];
-
-    if (this.selectedGroup) {
-      filteredData = filteredData.filter(
-        purchase => purchase.organization === this.selectedGroup
-      );
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
     }
-
-    if (this.selectedPayment) {
-      filteredData = filteredData.filter(
-        purchase => purchase.payment === this.selectedPayment
-      );
-    }
-
-    if (this.selectedInvoices === 'With Invoice') {
-      filteredData = filteredData.filter(
-        purchase => purchase.invoice &&
-          purchase.invoice.trim() !== ''
-      );
-    }
-
-    if (this.selectedInvoices === 'Without Invoice') {
-      filteredData = filteredData.filter(
-        purchase => !purchase.invoice ||
-          purchase.invoice.trim() === ''
-      );
-    }
-
-    const selectedVendor = this.selectedVendor?.trim();
-
-    if (selectedVendor) {
-      filteredData = filteredData.filter(
-        purchase =>
-          purchase.vendor?.toLowerCase()
-            .includes(selectedVendor.toLowerCase())
-      );
-    }
-
-    if (this.selectedRange) {
-
-      const startDate = new Date(this.selectedRange.startDate);
-      startDate;
-
-      const endDate = new Date(this.selectedRange.endDate);
-      endDate;
-
-      filteredData = filteredData.filter(purchase => {
-
-        const purchaseDate = new Date(purchase.createdOn);
-        
-        return (
-          purchaseDate >= startDate &&
-          purchaseDate <= endDate
-        );
-        
-
-      });
-    
-
-    }
-
-
-    this.dataSource.data = filteredData;
   }
-} 
+
+  onGroupChange(value: string): void {
+    this.selectedGroup.set(value);
+    this.emitFilters();
+  }
+
+  onPaymentChange(value: string): void {
+    this.selectedPayment.set(value);
+    this.emitFilters();
+  }
+
+  onVendorChange(value: string): void {
+    this.selectedVendor.set(value);
+    this.emitFilters();
+  }
+
+  onInvoiceChange(value: string): void {
+    this.selectedInvoices.set(value === 'with' || value === 'without' ? value : null);
+    this.emitFilters();
+  }
+
+  onAgingChange(value: string): void {
+    const filter: AgingFilter =
+      value === 'under4' || value === '4to8' || value === '8to24' || value === 'over24'
+        ? value
+        : null;
+    this.selectedAging.set(filter);
+    this.emitFilters();
+  }
+
+  private emitFilters(): void {
+    this.filtersChanged.emit({
+      organization: this.selectedGroup() || null,
+      payment: this.selectedPayment() || null,
+      invoice: this.selectedInvoices(),
+      vendor: this.selectedVendor(),
+      aging: this.selectedAging(),
+      possibleDuplicatesOnly: false
+    });
+  }
+
+  private uniqueValues(values: Array<string | null | undefined>): string[] {
+    return [...new Set(values.filter((value): value is string => Boolean(value)))].sort();
+  }
+}

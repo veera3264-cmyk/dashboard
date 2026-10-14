@@ -15,7 +15,12 @@
   </div>
 
   <div class="d-flex align-items-center" style="margin-right: 5%;">
-    <input type="checkbox" id="possibleDuplicates" class="form-check-input me-2" />
+    <input
+      type="checkbox"
+      id="possibleDuplicates"
+      class="form-check-input me-2"
+      [ngModel]="showPossibleDuplicates()"
+      (ngModelChange)="onPossibleDuplicatesChange($event)" />
     <label for="possibleDuplicates">
       Possible Duplicates
     </label>
