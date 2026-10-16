@@ -1,20 +1,31 @@
-<mat-form-field appearance="outline" class="date-range-field" subscriptSizing="dynamic">
-  <mat-date-range-input [rangePicker]="picker" aria-label="Select Date Range">
-    <input
-      matStartDate
-      [(ngModel)]="startDate"
-      placeholder="Start Date">
+<div class="date-filter-controls">
+  <div class="quick-ranges">
+    @for(range of quickRanges; track range.days){
+    <button type="button" class="btn btn-secondary btn-block" 
+      [class.is-selected]="selectedPresetDays() === range.days"
+      [attr.aria-pressed]="selectedPresetDays() === range.days" 
+      (click)="selectQuickRange(range.days)" {{ range.label
+      }}>
+    </button>
+    }
 
-    <input
-      matEndDate
-      [(ngModel)]="endDate"
-      placeholder="End Date">
-  </mat-date-range-input>
 
-  <mat-datepicker-toggle
-    matIconSuffix
-    [for]="picker">
-  </mat-datepicker-toggle>
+  </div>
 
-  <mat-date-range-picker #picker></mat-date-range-picker>
-</mat-form-field>
+  <mat-form-field appearance="outline" class="date-range-field" subscriptSizing="dynamic">
+    <mat-date-range-input [rangePicker]="picker" aria-label="Select Date Range">
+      <input matStartDate 
+      [ngModel]="startDate()" 
+      (ngModelChange)="startDate.set($event)" placeholder="Start Date">
+
+      <input matEndDate 
+      [ngModel]="endDate()" 
+      (ngModelChange)="endDate.set($event)" placeholder="End Date">
+    </mat-date-range-input>
+
+    <mat-datepicker-toggle matIconSuffix [for]="picker">
+    </mat-datepicker-toggle>
+
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>

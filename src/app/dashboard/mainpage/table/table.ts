@@ -12,7 +12,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 
-import { Purchase } from './table.model';
+import { Purchase } from '../../../../model/purchase.model';
 import { LocationService } from '../../../../services/location.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
