@@ -1,6 +1,6 @@
 export interface Purchase {
 groups: string;
-location: string;
+locationId: string;
 purchaseDate: string;
 purchaseAmount: number;
 invoiceDate: string;

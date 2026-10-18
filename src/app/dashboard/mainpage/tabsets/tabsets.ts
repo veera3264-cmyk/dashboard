@@ -1,4 +1,4 @@
-import { Component, signal, ViewEncapsulation } from '@angular/core';
+import { Component, effect, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
@@ -26,6 +26,12 @@ interface type {
   styleUrl: './tabsets.css',
 })
 export class Tabsets {
+
+  readonly resetToken = input(0);
+  readonly possibleDuplicatesChanged = output<boolean>();
+  readonly showPossibleDuplicates = signal(false);
+  private lastResetToken = 0;
+  
   title: string = 'All Pending';
 
   complexities: complexity[] = [
@@ -45,15 +51,23 @@ export class Tabsets {
   onAddPurchase(): void {
    
   }
+  onPossibleDuplicatesChange(value: boolean): void {
+    this.showPossibleDuplicates.set(value);
+    this.possibleDuplicatesChanged.emit(value);
+  }
 
-  
-  protected tabs = signal(['One', 'Two', 'Three', 'Four', 'Five']);
-  protected selectedTabIndex = signal(0);
+   constructor() {
+    effect(() => {
+      const resetToken = this.resetToken();
+      if (resetToken !== this.lastResetToken) {
+        this.lastResetToken = resetToken;
+        this.showPossibleDuplicates.set(false);
+      }
+    });
+  }
+ 
 
-  drop(event: CdkDragDrop<string[]>) {
-    const prevtype = this.tabs()[this.selectedTabIndex()];
-    moveItemInArray(this.tabs(), event.previousIndex, event.currentIndex);
-    this.selectedTabIndex.set(this.tabs().indexOf(prevtype));
+ 
 
   }
-}
+

@@ -1,9 +1,10 @@
-import { Component, OnInit,  EventEmitter, signal, output, effect, input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatDatepickerModule, MatEndDate } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+
 import { DateRangeFilter } from '../../../../model/purchase-filter.model';
 
 function recentDateRange(days: number): DateRangeFilter {
@@ -11,16 +12,14 @@ function recentDateRange(days: number): DateRangeFilter {
   endDate.setHours(0, 0, 0, 0);
 
   const startDate = new Date(endDate);
-  startDate.setDate(startDate.getDate() - days + 1)
+  startDate.setDate(startDate.getDate() - days + 1);
 
-  return { startDate, endDate }
+  return { startDate, endDate };
 }
-
-
 
 @Component({
   selector: 'app-datepicker',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     MatFormFieldModule,
@@ -28,12 +27,10 @@ function recentDateRange(days: number): DateRangeFilter {
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './datepicker.html',
-  styleUrls: ['./datepicker.css']
+  styleUrl: './datepicker.css'
 })
 export class Datepicker implements OnInit {
-
   readonly resetToken = input(0);
   readonly dateRangeSelected = output<DateRangeFilter | null>();
   readonly startDate = signal<Date | null>(null);
@@ -47,30 +44,29 @@ export class Datepicker implements OnInit {
     { label: '14 Days', days: 14 },
     { label: '30 Days', days: 30 },
     { label: '90 Days', days: 90 }
-  ]
+  ];
 
   private lastResetToken = 0;
-
- 
 
   constructor() {
     effect(() => {
       const resetToken = this.resetToken();
-      if (resetToken === this.lastResetToken)
-        return
+      if (resetToken === this.lastResetToken) {
+        return;
+      }
 
       this.lastResetToken = resetToken;
       this.startDate.set(null);
       this.endDate.set(null);
-      this.selectedPresetDays.set(null)
-
+      this.selectedPresetDays.set(null);
     });
   }
 
   ngOnInit(): void {
 
+
     const range = recentDateRange(5);
-    
+
     this.startDate.set(range.startDate);
     this.endDate.set(range.endDate);
     this.selectedPresetDays.set(5);
@@ -78,40 +74,36 @@ export class Datepicker implements OnInit {
 
   }
 
-  selectQuickRange (days :number ) : void{
+  selectQuickRange(days: number): void {
     const range = recentDateRange(days);
     this.startDate.set(range.startDate);
     this.endDate.set(range.endDate);
-    this.selectedPresetDays.set(days)
+    this.selectedPresetDays.set(days);
     this.dateRangeSelected.emit(range);
   }
 
-  onDateRange():void{
+  onDateChange(): void {
     this.selectedPresetDays.set(null);
-    
+
     const startDate = this.startDate();
     const endDate = this.endDate();
 
-    if (!startDate || !endDate || startDate > endDate){
+    if (!startDate || !endDate || startDate > endDate) {
       this.dateRangeSelected.emit(null);
-      return
+      return;
     }
-    this.dateRangeSelected.emit({startDate,endDate})
 
-
+    this.dateRangeSelected.emit({ startDate, endDate });
   }
 
-  private emitDateRange():void {
-    const startDate= this.startDate();
+  private emitDateRange(): void {
+    const startDate = this.startDate();
     const endDate = this.endDate();
 
-    if (startDate && endDate){
-      this.dateRangeSelected.emit({startDate,endDate});
-    }else {
-      this.dateRangeSelected.emit(null)
+    if (startDate && endDate) {
+      this.dateRangeSelected.emit({ startDate, endDate });
+    } else {
+      this.dateRangeSelected.emit(null);
     }
-
-
   }
-
 }

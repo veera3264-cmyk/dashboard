@@ -1,13 +1,31 @@
 <div class="mainpage">
-    <p class="date-note">*Note : Date Range Based On Purchase / Ledger Created Date</p>
-    
-        <div class="date-picker-container">
-            <app-datepicker 
-            (dateRangeSelected)="$event && onDateSelected($event)">
-            </app-datepicker>
-        </div>
-    </div>
-    <app-search-criteria (purchasesFiltered)="onPurchasesFiltered($event)">
-    </app-search-criteria>
-    <app-tabsets />
-    <app-table [purchases]="filteredPurchases" [selectedRange]="selectedDateRange"></app-table>
+  <p class="date-note">Select a date range to filter by Purchase Date.</p>
+
+  <app-datepicker
+    [resetToken]="resetToken()"
+    (dateRangeSelected)="onDateSelected($event)">
+  </app-datepicker>
+
+  <app-search-criteria
+    (filtersChanged)="onSearchFiltersChanged($event)"
+    (clearAllRequested)="onClearAllFilters()">
+  </app-search-criteria>
+
+  <app-tabsets
+    [resetToken]="resetToken()"
+    (possibleDuplicatesChanged)="onPossibleDuplicatesChanged($event)">
+  </app-tabsets>
+
+  @if (isLoading()) {
+    <p role="status">Loading purchases…</p>
+  } @else if (loadError()) {
+    <p role="alert">{{ loadError() }}</p>
+  } @else {
+    <app-table
+      [resetToken]="resetToken()"
+      [allPurchases]="purchases()"
+      [purchases]="filteredPurchases()"
+      (filtersChanged)="onTableFiltersChanged($event)">
+    </app-table>
+  }
+</div>

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import { DateRangeFilter,EMPTY_SEARCH_CRITERIA_FILTERS,EMPTY_TABLE_FILTERS,SearchCriteriaFilters,TableFilters } from '../../../model/purchase-filter.model';
+import { Purchase } from '../../../model/purchase.model';
+import { PurchaseService } from '../../../services/purchase.service';
 import { Datepicker } from './datepicker/datepicker';
 import { SearchCriteria } from './searchcreteria/searchcreteria';
 import { Tabsets } from './tabsets/tabsets';
@@ -8,39 +11,184 @@ function parsePurchaseDate(value: string | null): Date | null {
   if (!value) {
     return null;
   }
+
   const match = /^(\d{4})-(\d{2})-(\d{2})(?:$|T)/.exec(value);
   if (!match) {
-    return null
+    return null;
   }
 
   const [, yearText, monthText, dayText] = match;
   const year = Number(yearText);
   const month = Number(monthText);
   const day = Number(dayText);
-  const date = new Date(year, month - 1, day)
+  const date = new Date(year, month - 1, day);
 
   if (
     date.getFullYear() !== year ||
-    date.getMonth() !== month ||
-    date.getDay() !== day
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
   ) {
-    return null
-
+    return null;
   }
-  return date
+
+  return date;
 }
 
+function isWithinRange(value: string | null, range: DateRangeFilter): boolean {
+  const date = parsePurchaseDate(value);
+  if (!date) {
+    return false;
+  }
 
+  const startDate = new Date(range.startDate);
+  startDate.setHours(0, 0, 0, 0);
+
+  const endDate = new Date(range.endDate);
+  endDate.setHours(23, 59, 59, 999);
+
+  return date >= startDate && date <= endDate;
+}
 
 @Component({
   selector: 'app-mainpage',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Datepicker, SearchCriteria, Tabsets, Table],
   templateUrl: './mainpage.html',
-  styleUrl: './mainpage.css',
+  styleUrl: './mainpage.css'
 })
+export class Mainpage implements OnInit {
+  private readonly purchaseService = inject(PurchaseService);
 
-export class Mainpage {
+  readonly purchases = signal<Purchase[]>([]);
+  readonly isLoading = signal(true);
+  readonly loadError = signal<string | null>(null);
+  readonly resetToken = signal(0);
+  readonly dateRange = signal<DateRangeFilter | null>(null);
+  readonly searchFilters = signal<SearchCriteriaFilters>(EMPTY_SEARCH_CRITERIA_FILTERS);
+  readonly tableFilters = signal<TableFilters>(EMPTY_TABLE_FILTERS);
 
+  readonly filteredPurchases = computed(() => {
+    const locationFilters = this.searchFilters();
+    const tableFilters = this.tableFilters();
+    const dateRanges = [
+      this.dateRange(),
+      locationFilters.purchaseDateRange
+    ].filter((range): range is DateRangeFilter => range !== null);
 
+    return this.purchases().filter(purchase => {
+      if (
+        locationFilters.locationId !== null &&
+        (purchase.locationId) !== locationFilters.locationId
+      ) {
+        return false;
+      }
+
+      if (dateRanges.some(range => !isWithinRange(purchase.purchaseDate, range))) {
+        return false;
+      }
+
+      if (
+        locationFilters.invoiceDateRange &&
+        !isWithinRange(purchase.invoiceDate, locationFilters.invoiceDateRange)
+      ) {
+        return false;
+      }
+
+      if (
+        tableFilters.organization &&
+        purchase.organization !== tableFilters.organization
+      ) {
+        return false;
+      }
+
+      if (tableFilters.payment && purchase.payment !== tableFilters.payment) {
+        return false;
+      }
+
+      if (tableFilters.aging) {
+        const age = purchase.aging;
+        if (age === null) {
+          return false;
+        }
+
+        const matchesAging = {
+          under4: age < 4,
+          '4to8': age >= 4 && age < 8,
+          '8to24': age >= 8 && age <= 24,
+          over24: age > 24
+        }[tableFilters.aging];
+
+        if (!matchesAging) {
+          return false;
+        }
+      }
+
+      if (tableFilters.invoice === 'with' && !purchase.invoice?.trim()) {
+        return false;
+      }
+
+      if (tableFilters.invoice === 'without' && purchase.invoice?.trim()) {
+        return false;
+      }
+
+      const vendorFilter = tableFilters.vendor.trim().toLowerCase();
+      if (vendorFilter && !purchase.vendor.toLowerCase().includes(vendorFilter)) {
+        return false;
+      }
+
+      if (
+        tableFilters.possibleDuplicatesOnly &&
+        !['y', 'yes', 'true', '1'].includes(
+          purchase.possibleDuplicate?.trim().toLowerCase() ?? ''
+        )
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+  });
+
+  ngOnInit(): void {
+    this.purchaseService.getPurchases().subscribe({
+      next: purchases => {
+        this.purchases.set(purchases);
+        this.isLoading.set(false);
+      },
+      error: error => {
+        console.error('Could not load purchases for the dashboard.', error);
+        this.loadError.set('Purchases could not be loaded. Please try again later.');
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  onDateSelected(range: DateRangeFilter | null): void {
+    this.dateRange.set(range);
+  }
+
+  onSearchFiltersChanged(filters: SearchCriteriaFilters): void {
+    this.searchFilters.set(filters);
+  }
+
+  onTableFiltersChanged(filters: TableFilters): void {
+    this.tableFilters.update(current => ({
+      ...filters,
+      possibleDuplicatesOnly: current.possibleDuplicatesOnly
+    }));
+  }
+
+  onPossibleDuplicatesChanged(showOnly: boolean): void {
+    this.tableFilters.update(current => ({
+      ...current,
+      possibleDuplicatesOnly: showOnly
+    }));
+  }
+
+  onClearAllFilters(): void {
+    this.dateRange.set(null);
+    this.searchFilters.set(EMPTY_SEARCH_CRITERIA_FILTERS);
+    this.tableFilters.set(EMPTY_TABLE_FILTERS);
+    this.resetToken.update(token => token + 1);
+  }
 }
