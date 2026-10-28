@@ -72,12 +72,14 @@
                     matStartDate
                     [ngModel]="purchaseStartDate()"
                     (ngModelChange)="purchaseStartDate.set($event); emitFilters()"
+                    (click)="purchasePicker.open()"
                     placeholder="Start Date">
 
                 <input
                     matEndDate
                     [ngModel]="purchaseEndDate()"
                     (ngModelChange)="purchaseEndDate.set($event); emitFilters()"
+                    (click)="purchasePicker.open()"
                     placeholder="End Date">
 
             </mat-date-range-input>
@@ -112,12 +114,14 @@
                     matStartDate
                     [ngModel]="invoiceStartDate()"
                     (ngModelChange)="invoiceStartDate.set($event); emitFilters()"
+                    (click)="invoicePicker.open()"
                     placeholder="Start Date">
 
                 <input
                     matEndDate
                     [ngModel]="invoiceEndDate()"
                     (ngModelChange)="invoiceEndDate.set($event); emitFilters()"
+                    (click)="invoicePicker.open()"
                     placeholder="End Date">
 
             </mat-date-range-input>

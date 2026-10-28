@@ -23,6 +23,20 @@
   background: #edf1f4;
 }
 
+.table-container {
+  width: 100%;
+  min-width: 0;
+}
+
+.mat-mdc-paginator {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid #cbd3dc;
+  border-top: 0;
+}
+
 .custom-table .mat-mdc-header-cell {
   background: #6d777f;
   color: #ffffff;
@@ -55,10 +69,6 @@
 
 .mat-mdc-row:hover .mat-mdc-cell {
   background: #f5f8fb;
-}
-
-.mat-mdc-paginator {
-  border-top: 1px solid #cbd3dc;
 }
 
 .mat-mdc-header-row {
@@ -147,12 +157,49 @@
   width: 105px;
 }
 
-.mat-column-PossibleDuplicate,
-.mat-column-filterPossibleDuplicate {
-  width: 145px;
-}
-
 .mat-column-Action,
 .mat-column-filterAction {
-  width: 105px;
+  width: 250px;
+}
+
+.mat-column-select,
+.mat-column-filterSelect {
+  width: 44px;
+  text-align: center;
+}
+
+.selection-cell input {
+  cursor: pointer;
+}
+
+.action-cell {
+  white-space: nowrap;
+}
+
+.action-button {
+  margin: 2px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 3px;
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+}
+
+.confirm-button {
+  background: #337ab7;
+}
+
+.rescan-button {
+  background: #5c6f82;
+}
+
+.ineligible-button {
+  background: #c94c4c;
+}
+
+.action-button:focus-visible {
+  outline: 2px solid #1b5e20;
+  outline-offset: 2px;
 }

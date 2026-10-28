@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DateRangeFilter, EMPTY_SEARCH_CRITERIA_FILTERS, EMPTY_TABLE_FILTERS, SearchCriteriaFilters, TableFilters } from './purchase-filters.model';
 import { Purchase } from '../../models/purchase.model';
+import { PurchaseStatus } from '../../models/purchaseStatus.model';
 import { PurchaseService } from '../../../services/purchase.service';
 import { Datepicker } from './datepicker/datepicker';
 import { SearchCriteria } from './searchcreteria/searchcreteria';
@@ -65,16 +66,26 @@ export class Mainpage implements OnInit {
   readonly dateRange = signal<DateRangeFilter | null>(null);
   readonly searchFilters = signal<SearchCriteriaFilters>(EMPTY_SEARCH_CRITERIA_FILTERS);
   readonly tableFilters = signal<TableFilters>(EMPTY_TABLE_FILTERS);
+  readonly selectedStatus = signal<PurchaseStatus>('all');
+  readonly selectedPurchaseCount = signal(0);
 
   readonly filteredPurchases = computed(() => {
     const locationFilters = this.searchFilters();
     const tableFilters = this.tableFilters();
+    const selectedStatus = this.selectedStatus();
     const dateRanges = [
       this.dateRange(),
       locationFilters.purchaseDateRange
     ].filter((range): range is DateRangeFilter => range !== null);
 
     return this.purchases().filter(purchase => {
+      if (
+        selectedStatus !== 'all' &&
+        normalizePurchaseStatus(purchase.status) !== normalizePurchaseStatus(selectedStatus)
+      ) {
+        return false;
+      }
+
       if (
         locationFilters.locationId !== null &&
         String(purchase.locationId) !== locationFilters.locationId
@@ -172,6 +183,7 @@ export class Mainpage implements OnInit {
 
   onTableFiltersChanged(filters: TableFilters): void {
     this.tableFilters.update(current => ({
+      ...current,
       ...filters,
       possibleDuplicatesOnly: current.possibleDuplicatesOnly
     }));
@@ -184,10 +196,24 @@ export class Mainpage implements OnInit {
     }));
   }
 
+  onStatusChanged(status: PurchaseStatus): void {
+    this.selectedStatus.set(status);
+  }
+
+  onSelectedPurchaseCountChanged(count: number): void {
+    this.selectedPurchaseCount.set(count);
+  }
+
   onClearAllFilters(): void {
     this.dateRange.set(null);
     this.searchFilters.set(EMPTY_SEARCH_CRITERIA_FILTERS);
     this.tableFilters.set(EMPTY_TABLE_FILTERS);
+    this.selectedStatus.set('all');
+    this.selectedPurchaseCount.set(0);
     this.resetToken.update(token => token + 1);
   }
+}
+
+function normalizePurchaseStatus(status: string | null | undefined): string {
+  return (status ?? '').replace(/[\s_-]/g, '').toLowerCase();
 }

@@ -17,6 +17,8 @@
             <input id="email" type="email" placeholder="Email ID" [(ngModel)]="EmailID" required>
             <div class="password-container">
                 <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" [(ngModel)]="Password"
+                (keydown)="onLoginKeydown($event)"
+                
                     required>
 
                 <button

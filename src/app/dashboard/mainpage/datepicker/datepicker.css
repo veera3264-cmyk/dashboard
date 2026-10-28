@@ -25,14 +25,15 @@
     width: 132px;
     min-width: 100px;
     max-width: 132px;
-    height: 35px;
+    height: 32px;
     margin: 0;
     padding: 0 10px;
     white-space: nowrap;
+    font-size: 12px;
 }
 
 .btn-block.is-selected {
-    background-color: #1976d2;
+    background-color: #75ac12;
     border-color: #1976d2;
     color: #fff;
 }

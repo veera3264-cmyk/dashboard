@@ -13,6 +13,8 @@
 
   <app-tabsets
     [resetToken]="resetToken()"
+    [selectedPurchaseCount]="selectedPurchaseCount()"
+    (statusChanged)="onStatusChanged($event)"
     (possibleDuplicatesChanged)="onPossibleDuplicatesChanged($event)">
   </app-tabsets>
 
@@ -23,9 +25,11 @@
   } @else {
     <app-table
       [resetToken]="resetToken()"
+      [status]="selectedStatus()"
       [allPurchases]="purchases()"
       [purchases]="filteredPurchases()"
-      (filtersChanged)="onTableFiltersChanged($event)">
+      (filtersChanged)="onTableFiltersChanged($event)"
+      (selectedPurchaseCountChanged)="onSelectedPurchaseCountChanged($event)">
     </app-table>
   }
 </div>

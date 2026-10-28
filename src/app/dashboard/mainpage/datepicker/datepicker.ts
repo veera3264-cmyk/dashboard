@@ -60,10 +60,11 @@ export class Datepicker implements OnInit {
       this.endDate.set(null);
       this.selectedPresetDays.set(null);
     });
+   
   }
 
   ngOnInit(): void {
-    this.emitDateRange();
+    this.selectQuickRange(7)
   }
 
   selectQuickRange(days: number): void {
@@ -88,14 +89,4 @@ export class Datepicker implements OnInit {
     this.dateRangeSelected.emit({ startDate, endDate });
   }
 
-  private emitDateRange(): void {
-    const startDate = this.startDate();
-    const endDate = this.endDate();
-
-    if (startDate && endDate) {
-      this.dateRangeSelected.emit({ startDate, endDate });
-    } else {
-      this.dateRangeSelected.emit(null);
-    }
-  }
 }

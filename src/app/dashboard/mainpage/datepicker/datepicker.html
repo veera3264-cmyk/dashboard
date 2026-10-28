@@ -19,6 +19,7 @@
         [ngModel]="startDate()"
         (ngModelChange)="startDate.set($event)"
         (dateChange)="onDateChange()"
+        (click)="picker.open()"
         placeholder="Start Date">
 
       <input
@@ -26,6 +27,7 @@
         [ngModel]="endDate()"
         (ngModelChange)="endDate.set($event)"
         (dateChange)="onDateChange()"
+        (click)="picker.open()"
         placeholder="End Date">
     </mat-date-range-input>
 

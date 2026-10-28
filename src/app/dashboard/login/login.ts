@@ -83,7 +83,7 @@ export class Login {
       password: this.Password
     };
 
-    const minimumLoaderDuration = 700;
+    const minimumLoaderDuration = 500;
     const loadingStartedAt = Date.now();
     const finishAfterMinimumLoading = (action: () => void): void => {
       const remainingDuration = Math.max(
@@ -143,6 +143,11 @@ export class Login {
         }
       });
 
+  }
+  onLoginKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.onLogin();
+    }
   }
 
   onSignUP(): void {

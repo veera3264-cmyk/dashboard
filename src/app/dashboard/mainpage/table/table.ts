@@ -16,6 +16,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { AgingFilter, InvoiceFilter, TableFilters } from '../purchase-filters.model';
 import { Purchase } from '../../../models/purchase.model';
+import { PurchaseStatus } from '../../../models/purchaseStatus.model';
 
 @Component({
   selector: 'app-table',
@@ -31,9 +32,33 @@ import { Purchase } from '../../../models/purchase.model';
 })
 export class Table implements AfterViewInit {
   readonly resetToken = input(0);
+  readonly status = input<PurchaseStatus>('all');
   readonly purchases = input<Purchase[]>([]);
   readonly allPurchases = input<Purchase[]>([]);
   readonly filtersChanged = output<TableFilters>();
+  readonly selectedPurchaseCountChanged = output<number>();
+
+  readonly selectedPurchaseIds = signal<Set<number>>(new Set());
+  readonly allVisiblePurchasesSelected = computed(() => {
+    const visiblePurchases = this.purchases();
+    const selectedIds = this.selectedPurchaseIds();
+
+    return visiblePurchases.length > 0 &&
+      visiblePurchases.every(purchase => selectedIds.has(purchase.id));
+  });
+  readonly someVisiblePurchasesSelected = computed(() => {
+    const visiblePurchases = this.purchases();
+    const selectedIds = this.selectedPurchaseIds();
+    const selectedCount = visiblePurchases.filter(purchase => selectedIds.has(purchase.id)).length;
+
+    return selectedCount > 0 && selectedCount < visiblePurchases.length;
+  });
+  readonly displayedColumns = computed(() => this.hasSelectionColumn()
+    ? ['select', ...this.purchaseColumns]
+    : this.purchaseColumns);
+  readonly filterColumns = computed(() => this.hasSelectionColumn()
+    ? ['filterSelect', ...this.purchaseFilterColumns]
+    : this.purchaseFilterColumns);
 
   readonly groups = computed(() => this.uniqueValues(
     this.allPurchases().map(purchase => purchase.organization)
@@ -48,7 +73,7 @@ export class Table implements AfterViewInit {
   readonly selectedInvoices = signal<InvoiceFilter>(null);
   readonly selectedAging = signal<AgingFilter>(null);
 
-  readonly displayedColumns = [
+  private readonly purchaseColumns = [
     'Groups',
     'Location',
     'PurchaseDate',
@@ -61,11 +86,10 @@ export class Table implements AfterViewInit {
     'Comments',
     'CreatedOn',
     'Aging',
-    'PossibleDuplicate',
     'Action'
   ];
 
-  readonly filterColumns = [
+  private readonly purchaseFilterColumns = [
     'filterGroups',
     'filterLocation',
     'filterPurchaseDate',
@@ -78,7 +102,6 @@ export class Table implements AfterViewInit {
     'filterComments',
     'filterCreatedOn',
     'filterAging',
-    'filterPossibleDuplicate',
     'filterAction'
   ];
 
@@ -96,6 +119,17 @@ export class Table implements AfterViewInit {
     });
 
     effect(() => {
+      const status = this.status();
+      const visibleIds = new Set(this.purchases().map(purchase => purchase.id));
+      const selectedIds = this.selectedPurchaseIds();
+      const nextSelectedIds = status === 'all' || status === 'pending'
+        ? new Set<number>()
+        : new Set([...selectedIds].filter(id => visibleIds.has(id)));
+
+      this.updateSelectedPurchaseIds(nextSelectedIds);
+    });
+
+    effect(() => {
       const resetToken = this.resetToken();
       if (resetToken === this.lastResetToken) {
         return;
@@ -107,6 +141,7 @@ export class Table implements AfterViewInit {
       this.selectedVendor.set('');
       this.selectedInvoices.set(null);
       this.selectedAging.set(null);
+      this.updateSelectedPurchaseIds(new Set());
     });
   }
 
@@ -143,6 +178,56 @@ export class Table implements AfterViewInit {
         : null;
     this.selectedAging.set(filter);
     this.emitFilters();
+  }
+
+  hasSelectionColumn(): boolean {
+    return this.status() !== 'all' && this.status() !== 'pending';
+  }
+
+  isPurchaseSelected(id: number): boolean {
+    return this.selectedPurchaseIds().has(id);
+  }
+
+  onPurchaseSelectionChange(id: number, event: Event): void {
+    if (!(event.target instanceof HTMLInputElement)) {
+      return;
+    }
+
+    const selectedIds = new Set(this.selectedPurchaseIds());
+    if (event.target.checked) {
+      selectedIds.add(id);
+    } else {
+      selectedIds.delete(id);
+    }
+    this.updateSelectedPurchaseIds(selectedIds);
+  }
+
+  onSelectAllPurchasesChange(event: Event): void {
+    if (!(event.target instanceof HTMLInputElement)) {
+      return;
+    }
+
+    const selectedIds = new Set(this.selectedPurchaseIds());
+    for (const purchase of this.purchases()) {
+      if (event.target.checked) {
+        selectedIds.add(purchase.id);
+      } else {
+        selectedIds.delete(purchase.id);
+      }
+    }
+    this.updateSelectedPurchaseIds(selectedIds);
+  }
+
+  private updateSelectedPurchaseIds(selectedIds: Set<number>): void {
+    const currentIds = this.selectedPurchaseIds();
+    const unchanged = currentIds.size === selectedIds.size &&
+      [...currentIds].every(id => selectedIds.has(id));
+    if (unchanged) {
+      return;
+    }
+
+    this.selectedPurchaseIds.set(selectedIds);
+    this.selectedPurchaseCountChanged.emit(selectedIds.size);
   }
 
   private emitFilters(): void {

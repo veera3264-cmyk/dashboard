@@ -1,3 +1,5 @@
+import { PurchaseStatus } from './purchaseStatus.model';
+
 export interface Purchase {
   id: number;
   locationId: string | number;
@@ -14,5 +16,7 @@ export interface Purchase {
   createdOn: string | null;
   aging: number | null;
   possibleDuplicate: string | null;
+  status?: PurchaseStatus | null;
+  confirmed?: boolean;
   action?: string | null;
 }

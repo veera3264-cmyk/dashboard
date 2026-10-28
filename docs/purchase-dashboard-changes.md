@@ -15,8 +15,10 @@ Mainpage coordinates the filters and derives the table rows from the original pu
 1. Search Criteria emits location, purchase-date, and invoice-date selections.
 2. Datepicker emits the main purchase-date range. It starts with no range selected so purchases are visible immediately.
 3. Table emits group, payment, invoice-presence, vendor, and aging selections.
-4. Tabsets emits the possible-duplicates toggle.
+4. Tabsets emits the selected purchase status and possible-duplicates toggle.
 5. Mainpage applies all active selections together and passes the result to Table.
+
+Each purchase may include a `status` field. Selecting a status tab filters against that field, ignoring differences in letter case, spaces, underscores, and hyphens. The All tab does not apply a status filter. Clearing all filters also returns the selected tab to All.
 
 The Clear Search Criteria action clears the Search Criteria controls and resets all dashboard filters, including the main date picker and Table filter controls.
 
