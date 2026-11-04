@@ -1,0 +1,98 @@
+<body>
+    @if(isLoading){
+    <div class="loading-screen" role="status" aria-label="Loading dashboard">
+        <span class="loading-spinner" aria-hidden="true"></span>
+    </div>
+    }
+    @if(currentStep === 'login'){
+    <div class="login">
+        <div class="logoimage">
+            <img src="assets/logo.jfif" alt="">
+        </div>
+        <div class="brand">
+            <h2>MOSTEDGE</h2>
+            <p>Protect Every Penny, Power every possibility</p>
+        </div>
+        <div class="input-container">
+            <input id="email" type="email" placeholder="Email ID" [(ngModel)]="EmailID" required>
+            <div class="password-container">
+                <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" [(ngModel)]="Password"
+                (keydown)="onLoginKeydown($event)"
+                
+                    required>
+
+                <button
+                    class="password-visibility-toggle"
+                    type="button"
+                    [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+                    [attr.aria-pressed]="showPassword"
+                    (click)="showPassword = !showPassword">
+                    <mat-icon aria-hidden="true">{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+            </div>
+            @if(errorMessage){
+            <span style="color:red">
+                {{ errorMessage }}
+            </span>
+            }
+
+            @if(successMessage){
+            <span style="color:green">
+                {{ successMessage }}
+            </span>
+            }
+            <div class="botton">
+                <button class="submit" type="submit" [disabled]="isLoading" (click)="onLogin()">LOG IN</button>
+            </div>
+
+
+            <div class="create-account">
+                <div class="forgot-password">
+                    <a href="#">Forgot password</a>
+                </div>
+                <div class="signup">
+                    Don't Have An Account? <a href="#" (click)="showSignup(); $event.preventDefault()"> Sign
+                        Up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @if(currentStep === 'signup'){
+    <div class="form-container">
+        <div class="form-header">
+            <h3>Sign Up</h3>
+        </div>
+
+        <div class="input-container">
+
+            <input type="text" placeholder="Username" [(ngModel)]="userName" required>
+
+            <input type="email" placeholder="Email Address" [(ngModel)]="EmailID" required>
+
+            <input type="password" placeholder="Create Password" [(ngModel)]="createPassword" required>
+
+            <input type="password" placeholder="Re-Enter password" [(ngModel)]="reEnterPassword" required>
+
+            <p style="color:red">{{ errorMessage }}</p>
+            <p style="color:green">{{ successMessage }}</p>
+
+
+            <div class="botton">
+                <button class="submit" type="button" (click)="onSignUP()">
+                    SIGN UP
+                </button>
+            </div>
+
+            <div class="signup">
+                Already Have An Account
+                <a href="#" (click)="showLogin();  $event.preventDefault()">
+                    Log In
+                </a>
+            </div>
+
+        </div>
+    </div>
+    }
+</body>

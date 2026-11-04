@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="brand-logo">
+    <img class="logo" src="/assets/logo-header-light.png" alt="MostEdge">
+  </div>
+   
+    <button
+      class="navbar-toggler"
+      type="button"
+      aria-controls="navbarSupportedContent"
+      [attr.aria-expanded]="isMenuOpen()"
+      aria-label="Toggle navigation"
+      (click)="toggleMenu()">
+     <mat-icon aria-hidden="true">more_vert</mat-icon>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      [class.show]="isMenuOpen()"
+      id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Grocery Invoices</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">EDI Purchases</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Fuel Invoices</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Sales Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/groceryinvioces">
+            <span class="menu-border">Locations</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+        
+          <span class="emailID">{{ EmailID }}</span>
+        
+        <li class="nav-item">
+          <a class="nav-link logout" (click)="onLogout()">
+            <img src ='/assets/exit.png'/>
+          </a>
+        </li>
+      </ul>
+    </div>
+</nav>

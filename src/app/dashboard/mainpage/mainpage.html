@@ -1,0 +1,35 @@
+<div class="mainpage">
+  <p class="date-note">Select a date range to filter by Purchase Date.</p>
+
+  <app-datepicker
+    [resetToken]="resetToken()"
+    (dateRangeSelected)="onDateSelected($event)">
+  </app-datepicker>
+
+  <app-search-criteria
+    (filtersChanged)="onSearchFiltersChanged($event)"
+    (clearAllRequested)="onClearAllFilters()">
+  </app-search-criteria>
+
+  <app-tabsets
+    [resetToken]="resetToken()"
+    [selectedPurchaseCount]="selectedPurchaseCount()"
+    (statusChanged)="onStatusChanged($event)"
+    (possibleDuplicatesChanged)="onPossibleDuplicatesChanged($event)">
+  </app-tabsets>
+
+  @if (isLoading()) {
+    <p role="status">Loading purchases…</p>
+  } @else if (loadError()) {
+    <p role="alert">{{ loadError() }}</p>
+  } @else {
+    <app-table
+      [resetToken]="resetToken()"
+      [status]="selectedStatus()"
+      [allPurchases]="purchases()"
+      [purchases]="filteredPurchases()"
+      (filtersChanged)="onTableFiltersChanged($event)"
+      (selectedPurchaseCountChanged)="onSelectedPurchaseCountChanged($event)">
+    </app-table>
+  }
+</div>

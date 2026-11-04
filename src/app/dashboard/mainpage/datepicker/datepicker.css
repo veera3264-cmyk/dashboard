@@ -1,0 +1,102 @@
+:host {
+    display: block;
+    width: 100%;
+    min-width: 0;
+}
+
+.date-filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.quick-ranges {
+    display: flex;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-width: 0;
+}
+
+.btn-block {
+    box-sizing: border-box;
+    flex: 1 1 110px;
+    width: 132px;
+    min-width: 100px;
+    max-width: 132px;
+    height: 32px;
+    margin: 0;
+    padding: 0 10px;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.btn-block.is-selected {
+    background-color: #75ac12;
+    border-color: #1976d2;
+    color: #fff;
+}
+
+.date-range-field {
+    flex: 1 1 360px;
+    width: 100%;
+    max-width: 588px;
+    min-width: 280px;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper,
+::ng-deep .mat-mdc-form-field-flex {
+    height: 36px;
+}
+
+::ng-deep .date-range-field.mat-mdc-form-field.mat-form-field-appearance-outline .mat-mdc-form-field-infix {
+    box-sizing: border-box;
+    height: 36px;
+    min-height: 36px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.mat-mdc-form-field {
+    border-radius: 8px;
+}
+
+
+.mat-datepicker-toggle {
+    color: #1976d2 !important;
+}
+
+
+.mat-calendar-body-selected {
+    background-color: #1976d2 !important;
+    color: #fff !important;
+}
+
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border-color: #1976d2 !important;
+}
+
+
+.mat-datepicker-content {
+    border-radius: 12px !important;
+}
+
+@media (max-width: 640px) {
+    .date-filter-controls,
+    .quick-ranges {
+        gap: 10px;
+    }
+
+    .btn-block {
+        flex: 1 1 calc(33.333% - 10px);
+        max-width: none;
+    }
+
+    .date-range-field {
+        flex-basis: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+}

@@ -1,0 +1,67 @@
+<mat-tab-group
+  [selectedIndex]="selectedTabIndex()"
+  animationDuration="1ms"
+  (selectedIndexChange)="onTabChanged($event)">
+  @for(tab of purchaseTabs; track tab.value){
+    <mat-tab [label]="tab.label"></mat-tab>
+  }
+</mat-tab-group>
+<div class="divider-container">
+  <div class="title-actions">
+    <h4 class="toolbar-title">{{ title }}</h4>
+    @if (selectedPurchaseCount() > 0) {
+      <div class="selection-actions">
+        <button type="button" class="toolbar-action assign-action">Assign</button>
+        <button type="button" class="toolbar-action rescan-action">Rescan</button>
+      </div>
+    }
+  </div>
+
+  <div class="toolbar-control duplicate-control">
+    <input
+      type="checkbox"
+      id="possibleDuplicates"
+      class="form-check-input"
+      [ngModel]="showPossibleDuplicates()"
+      (ngModelChange)="onPossibleDuplicatesChange($event)" />
+    <label for="possibleDuplicates">
+      Possible Duplicates
+    </label>
+  </div>
+
+  <div class="toolbar-control complexity-control">
+    <span>Complexity:</span>
+
+    <mat-form-field appearance="outline" class="compact-field" subscriptSizing="dynamic">
+      <mat-label>Complexity</mat-label>
+
+      <mat-select>
+        @for (complexity of complexities; track complexity.value) {
+        <mat-option [value]="complexity.value">
+          {{ complexity.viewValue }}
+        </mat-option>
+        }
+      </mat-select>
+
+    </mat-form-field>
+  </div>
+  <div class="toolbar-control type-control">
+    <span>Type:</span>
+
+    <mat-form-field appearance="outline" class="compact-field type-field" subscriptSizing="dynamic">
+      <mat-label>Type</mat-label>
+
+      <mat-select>
+        @for (type of types; track type.value) {
+        <mat-option [value]="type.value">
+          {{ type.viewValue }}
+        </mat-option>
+        }
+      </mat-select>
+
+    </mat-form-field>
+  </div>
+  <div class="add-purchase-container">
+    <button class="btn btn-success" (click)="onAddPurchase()">Add Purchase</button>
+  </div>
+</div>
