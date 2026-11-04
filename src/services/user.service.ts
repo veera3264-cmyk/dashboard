@@ -20,4 +20,7 @@ export class UserService {
     this.EmailID = '';
     sessionStorage.removeItem('email');
   }
+
+
+  
 }
