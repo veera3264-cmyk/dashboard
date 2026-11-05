@@ -5,22 +5,20 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
 
-  private EmailID: string = '';
-
-  setEmailID(email: string): void {
-    this.EmailID = email;
+  setUser(email: string, token: string): void {
     sessionStorage.setItem('EmailID', email);
+    sessionStorage.setItem('token', token);
   }
 
   getEmailID(): string {
-    return this.EmailID || sessionStorage.getItem('email') || '';
+    return sessionStorage.getItem('EmailID') || '';
   }
 
-  clearUser(): void {
-    this.EmailID = '';
-    sessionStorage.removeItem('email');
+  getToken(): string {
+    return sessionStorage.getItem('token') || '';
   }
 
-
-  
+  logout(): void {
+    sessionStorage.clear();
+  }
 }

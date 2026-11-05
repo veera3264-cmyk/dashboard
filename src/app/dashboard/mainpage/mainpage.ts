@@ -66,7 +66,7 @@ export class Mainpage implements OnInit {
   readonly dateRange = signal<DateRangeFilter | null>(null);
   readonly searchFilters = signal<SearchCriteriaFilters>(EMPTY_SEARCH_CRITERIA_FILTERS);
   readonly tableFilters = signal<TableFilters>(EMPTY_TABLE_FILTERS);
-  readonly selectedStatus = signal<PurchaseStatus>('all');
+  readonly selectedStatus = signal<PurchaseStatus>('pending');
   readonly selectedPurchaseCount = signal(0);
 
   readonly filteredPurchases = computed(() => {
@@ -175,6 +175,9 @@ export class Mainpage implements OnInit {
 
   onDateSelected(range: DateRangeFilter | null): void {
     this.dateRange.set(range);
+    if(!range){
+      return;
+    }
   }
 
   onSearchFiltersChanged(filters: SearchCriteriaFilters): void {
@@ -208,7 +211,7 @@ export class Mainpage implements OnInit {
     this.dateRange.set(null);
     this.searchFilters.set(EMPTY_SEARCH_CRITERIA_FILTERS);
     this.tableFilters.set(EMPTY_TABLE_FILTERS);
-    this.selectedStatus.set('all');
+    this.selectedStatus.set('pending');
     this.selectedPurchaseCount.set(0);
     this.resetToken.update(token => token + 1);
   }

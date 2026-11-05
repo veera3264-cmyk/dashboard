@@ -58,7 +58,7 @@ export class Datepicker implements OnInit {
       this.lastResetToken = resetToken;
       this.startDate.set(null);
       this.endDate.set(null);
-      this.selectedPresetDays.set(null);
+      this.selectQuickRange(7);
     });
    
   }

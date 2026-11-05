@@ -15,24 +15,25 @@ import { AssignmentService } from '../../services/assignement.service';
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
-  loadPurchases: any;
+  // loadPurchases: any;
   constructor(
   private assignmentService: AssignmentService
 ) {}
 
 ngOnInit(): void {
 
-  this.assignmentService
-      .triggerAssignment()
-      .subscribe({
-        next: purchases => {
-          console.log('Purchases assigned', purchases);
-        },
-        error: err => {
-          console.error(err);
-        }
-      });
+//   this.assignmentService
+//       .triggerAssignment()
+//       .subscribe({
+//         next: purchases => {
+//           console.log('Purchases assigned', purchases);
+//         },
+//         error: err => {
+//           console.error(err);
+//         }
+//       });
 
-  this.loadPurchases();
+//   this.loadPurchases();
+// }
 }
 }
