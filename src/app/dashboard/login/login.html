@@ -73,7 +73,7 @@
 
             <input type="password" placeholder="Create Password" [(ngModel)]="createPassword" required>
 
-            <input type="password" placeholder="Re-Enter password" [(ngModel)]="reEnterPassword" required>
+            <input type="password" placeholder="Re-Enter password" [(ngModel)]="reEnterPassword" required (keydown)="onLoginKeydown($event)">
 
             <p style="color:red">{{ errorMessage }}</p>
             <p style="color:green">{{ successMessage }}</p>

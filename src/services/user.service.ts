@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class UserService {
 
   setUser(email: string, token: string): void {
-    sessionStorage.setItem('EmailID', email);
+   
     sessionStorage.setItem('token', token);
   }
 

@@ -101,20 +101,33 @@ export class Login {
 
         next: (result: any) => {
 
-          console.log(result);
+          console.log(result.status);
           ;
 
-          if (result.status === 'SUCCESS') {
+          if (result.token) {
+
+            this.userService.setUser(
+              result.email,
+              result.token
+            );
+            console.log('Login Response', result);
+            console.log('Status', result.status);
+            console.log('Token', result.token);
 
             this.successMessage = result.message;
 
-            sessionStorage.setItem(
-              'email',
-              result.email
-            );
-
             finishAfterMinimumLoading(() => {
-              void this.router.navigate(['/dashboard']);
+
+              console.log('Before Navigation');
+
+              this.router.navigate(['/dashboard'])
+                .then(result => {
+                  console.log('Navigation Result:', result);
+                })
+                .catch(err => {
+                  console.error('Navigation Error:', err);
+                });
+
             });
 
           } else {
@@ -145,8 +158,14 @@ export class Login {
 
   }
   onLoginKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
+    if (event.key !== 'Enter') {
+      return;
+    }
+
+    if (this.currentStep === 'login') {
       this.onLogin();
+    } else if (this.currentStep === 'signup') {
+      this.onSignUP();
     }
   }
 
@@ -262,4 +281,5 @@ export class Login {
         }
       });
   }
+
 }
