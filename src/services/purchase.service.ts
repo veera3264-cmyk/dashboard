@@ -9,7 +9,7 @@ import { Purchase } from '../app/models/purchase.model';
 export class PurchaseService {
 
 
-  private purchaseUrl = 'http://localhost:8080/api/purchases';
+  private purchaseUrl = 'http://localhost:8080/purchases/purchases';
 
   constructor(private http: HttpClient) { }
 

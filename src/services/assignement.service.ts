@@ -11,7 +11,7 @@ export class AssignmentService {
   private http = inject(HttpClient);
 
   // Use your actual Spring Boot base URL
-  private readonly apiUrl = 'http://localhost:8080/assignments';
+  private readonly apiUrl = 'http://localhost:8080/auth/assignments';
 
   triggerAssignment(): Observable<Purchase[]> {
     return this.http.post<Purchase[]>(

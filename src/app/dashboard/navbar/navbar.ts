@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -13,19 +15,40 @@ import {  Router } from '@angular/router';
 export class Navbar {
 
   EmailID: string = '';
+
+
   readonly isMenuOpen = signal(false);
+  
 
   constructor(private userService: UserService,
+    private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {
-    this.EmailID = sessionStorage.getItem('email') || '';
-    
-  }
-  onLogout(): void{
-    sessionStorage.clear();
-    localStorage.clear();
+  ngOnInit(): void {
+
+  this.authService.getCurrentUser()
+    .subscribe({
+      next: (response) => {
+
+        this.EmailID = response.email;
+
+        console.log(
+          'Logged In User:',
+          this.EmailID
+        );
+      },
+      error: (error) => {
+
+        console.error(
+          'Unable to load current user',
+          error
+        );
+      }
+    });
+}
+  onLogout(): void {
+    this.userService.logout();
     this.router.navigate(['']);
   }
 
@@ -33,4 +56,4 @@ export class Navbar {
     this.isMenuOpen.update(isOpen => !isOpen);
   }
 }
-import { MatIconModule } from '@angular/material/icon';
+

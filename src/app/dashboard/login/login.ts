@@ -5,6 +5,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { LoginService } from '../../../services/login.service';
 import { UserService } from '../../../services/user.service';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class Login {
   constructor(
     @Inject(LoginService) private loginService: LoginService,
     @Inject(UserService) private userService: UserService,
+    @Inject(AuthService) private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) { }
@@ -102,17 +104,16 @@ export class Login {
         next: (result: any) => {
 
           console.log(result.status);
+           
           ;
 
-          if (result.token) {
+          if (result.status === 'SUCCESS') {
 
             this.userService.setUser(
               result.email,
               result.token
             );
-            console.log('Login Response', result);
-            console.log('Status', result.status);
-            console.log('Token', result.token);
+            
 
             this.successMessage = result.message;
 
@@ -123,6 +124,7 @@ export class Login {
               this.router.navigate(['/dashboard'])
                 .then(result => {
                   console.log('Navigation Result:', result);
+                  console.log('Current URL:', this.router.url);
                 })
                 .catch(err => {
                   console.error('Navigation Error:', err);

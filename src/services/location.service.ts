@@ -9,7 +9,7 @@ import { Location } from '../app/models/location.model';
 export class LocationService {
  
 
-  private locationUrl = 'http://localhost:8080/api/locations';
+  private locationUrl = 'http://localhost:8080/locations/locations';
 
 
   constructor(private http: HttpClient) { }

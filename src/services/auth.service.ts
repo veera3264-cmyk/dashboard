@@ -8,8 +8,9 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
+  status: string;
+  message: string;
   email: string;
-  token: string;
 }
 
 @Injectable({
@@ -24,7 +25,18 @@ export class AuthService {
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
       `${this.apiUrl}/login`,
-      loginRequest
+      loginRequest,
+      {
+        withCredentials: true
+      }
+    );
+  }
+  getCurrentUser() {
+    return this.http.get<any>(
+      `${this.apiUrl}/me`,
+      {
+        withCredentials: true
+      }
     );
   }
 

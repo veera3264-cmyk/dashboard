@@ -7,6 +7,7 @@ import { AssignmentService } from '../../services/assignement.service';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [Navbar, RouterOutlet, Mainpage, Footer],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
